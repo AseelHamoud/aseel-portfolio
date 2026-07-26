@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction E — Clear Profile (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #faf7f1; --panel: #ffffff; --panel-2: #f1ece2;
+    --paper: #1e2c33; --muted: #5c6e75; --brass: #b8842e; --brass-hi: #8a6210;
+    --line: rgba(30,44,51,.13);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--ink); color: var(--paper); font-family: "Inter", sans-serif; font-size: 16px; line-height: 1.65; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 40px; }
+  h2 { font-family: "Archivo", sans-serif; font-weight: 700; font-size: 26px; }
+  .sec { padding: 72px 0 0; }
+  .sec-head { display: flex; align-items: center; gap: 18px; margin-bottom: 34px; }
+  .sec-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* nav */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .brand { font-family: "Archivo"; font-weight: 800; font-size: 17px; letter-spacing: .01em; }
+  .links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .links .active { color: var(--brass-hi); }
+
+  /* hero */
+  .hero { display: flex; justify-content: space-between; align-items: center; gap: 50px; padding: 76px 0 68px; border-bottom: 1px solid var(--line); }
+  .kicker { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); margin-bottom: 14px; }
+  h1 { font-family: "Archivo"; font-weight: 800; font-size: 44px; line-height: 1.1; margin-bottom: 10px; }
+  .role { font-size: 18px; font-weight: 600; color: var(--brass-hi); margin-bottom: 18px; }
+  .bio { color: var(--muted); max-width: 52ch; margin-bottom: 28px; }
+  .btns { display: flex; gap: 14px; align-items: center; }
+  .btn { font-family: "Archivo"; font-weight: 700; font-size: 14px; padding: 13px 26px; border-radius: 8px; text-decoration: none; }
+  .btn.solid { background: #223640; color: #faf7f1; }
+  .btn.ghost { border: 1.5px solid var(--line); color: var(--paper); background: #fff; }
+  .avatar {
+    width: 210px; height: 210px; border-radius: 50%; flex: none;
+    background: var(--panel-2); border: 2px dashed rgba(220,165,74,.5);
+    display: grid; place-items: center; text-align: center;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; color: var(--brass);
+  }
+
+  /* about facts */
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+  .fact { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(30,44,51,.05); }
+  .fact b { font-family: "Archivo"; font-weight: 700; display: block; margin-bottom: 4px; }
+  .fact span { font-size: 13.5px; color: var(--muted); }
+  .about-p { color: var(--muted); max-width: 68ch; }
+  .about-p strong { color: var(--paper); font-weight: 600; }
+
+  /* experience */
+  .xp { display: grid; grid-template-columns: 150px 1fr; gap: 26px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .xp:last-child { border-bottom: none; }
+  .xp time { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: .1em; color: var(--brass); padding-top: 4px; }
+  .xp h3 { font-family: "Archivo"; font-weight: 700; font-size: 17.5px; margin-bottom: 4px; }
+  .xp .org { font-size: 14px; color: var(--brass-hi); margin-bottom: 8px; }
+  .xp p { color: var(--muted); font-size: 15px; max-width: 60ch; }
+
+  /* projects */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 4px rgba(30,44,51,.05); }
+  .badge { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; width: fit-content; }
+  .badge.v { color: #2b2118; background: #dca54a; }
+  .badge.p { color: var(--brass-hi); border: 1px solid rgba(220,165,74,.4); }
+  .badge.r { color: var(--muted); border: 1px solid var(--line); }
+  .card h3 { font-family: "Archivo"; font-weight: 700; font-size: 17px; }
+  .card p { color: var(--muted); font-size: 14px; flex: 1; }
+  .more { font-size: 13.5px; font-weight: 600; color: var(--brass-hi); }
+
+  /* learning */
+  .learn { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 26px 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; box-shadow: 0 1px 4px rgba(30,44,51,.05); }
+  .learn b { font-family: "Archivo"; font-weight: 700; }
+  .learn small { display: block; color: var(--muted); margin-top: 4px; font-size: 13.5px; }
+  .learn time { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--brass); }
+
+  /* contact */
+  .contact { text-align: center; padding: 84px 0; }
+  .contact h2 { font-size: 32px; margin-bottom: 10px; }
+  .contact p { color: var(--muted); margin-bottom: 26px; }
+  footer { border-top: 1px solid var(--line); padding: 22px 0 30px; text-align: center; }
+  footer p { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <div class="brand">Aseel Hamoud</div>
+    <div class="links">
+      <span class="active">About</span><span>Experience</span><span>Projects</span><span>Learning</span><span>Contact</span>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="kicker">Yanbu, Saudi Arabia</p>
+      <h1>Aseel Hamoud</h1>
+      <p class="role">Bulk Plant Operator at Saudi Aramco · Business Student</p>
+      <p class="bio">I turn frontline operational problems into practical, documented
+      improvements — and I'm building a deliberate path toward training,
+      development, and digital innovation.</p>
+      <div class="btns">
+        <a class="btn solid" href="#">Email me</a>
+        <a class="btn ghost" href="#">Download résumé</a>
+      </div>
+    </div>
+    <div class="avatar">YOUR PHOTO<br>HERE</div>
+  </header>
+
+  <section class="sec">
+    <div class="sec-head"><h2>About</h2></div>
+    <p class="about-p">Since 2019 I've worked in bulk plant operations at Saudi Aramco in
+    Yanbu, including DCS control-room experience — while studying
+    <strong>Business Administration</strong> at Saudi Electronic University.
+    Before operations, I worked in tech sales, led a retail branch, and
+    co-ran a specialty-coffee business. <strong>Data over opinion</strong> is how I work:
+    study what works, understand why, then build something better.</p>
+    <div class="facts">
+      <div class="fact"><b>6+ years</b><span>at Saudi Aramco, since Sept 2019</span></div>
+      <div class="fact"><b>BBA · Year 2</b><span>Saudi Electronic University · 3.30 GPA</span></div>
+      <div class="fact"><b>Recognized work</b><span>management &amp; directorate recognition</span></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head"><h2>Experience</h2></div>
+    <div class="xp">
+      <time>2019 — NOW</time>
+      <div>
+        <h3>Bulk Plant Operator</h3>
+        <p class="org">Saudi Aramco · Yanbu</p>
+        <p>Frontline operations including DCS control-room experience. Rotating
+        shifts, real problems, real accountability — and a track record of
+        turning them into documented improvements.</p>
+      </div>
+    </div>
+    <div class="xp">
+      <time>2021 — 2025</time>
+      <div>
+        <h3>Co-founder &amp; Operations Lead</h3>
+        <p class="org">Specialty-coffee business (partnership)</p>
+        <p>Responsible for staff, daily operations, and supply — from opening
+        to handover.</p>
+      </div>
+    </div>
+    <div class="xp">
+      <time>EARLIER</time>
+      <div>
+        <h3>Sales &amp; Retail Leadership</h3>
+        <p class="org">Consumer technology retail</p>
+        <p>Tech sales, marketing, and branch leadership — where I learned
+        customers, teams, and ownership. <em>(dates being verified)</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head"><h2>Projects</h2></div>
+    <div class="cards">
+      <div class="card">
+        <span class="badge v">Verified</span>
+        <h3>Isolation Points Reference</h3>
+        <p>A structured digital reference that changed how teams locate isolation
+        information. Recognized by management and directorate, 2023–2024.</p>
+        <span class="more">Read the story →</span>
+      </div>
+      <div class="card">
+        <span class="badge p">In progress</span>
+        <h3>Operational Checklist Dashboard</h3>
+        <p>An Excel-based system replacing fragmented paper tracking with clear
+        ownership and current-period visibility.</p>
+        <span class="more">Read the story →</span>
+      </div>
+      <div class="card">
+        <span class="badge r">Research</span>
+        <h3>Paddict</h3>
+        <p>A padel marketplace concept starting in Yanbu — business direction,
+        product research, and customer experience.</p>
+        <span class="more">Read the story →</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head"><h2>Learning</h2></div>
+    <div class="learn">
+      <div>
+        <b>GitHub Copilot — learning certificate</b>
+        <small>A verified learning inventory is being assembled — numbers appear
+        here only when they're real.</small>
+      </div>
+      <time>24 JUL 2026</time>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Let's talk</h2>
+    <p>Open to conversations about training &amp; development, operational
+    improvement, and practical tools.</p>
+    <a class="btn solid" href="#">bnhamoud22@gmail.com</a>
+  </section>
+
+  <footer>
+    <p>© 2026 ASEEL HAMOUD · PERSONAL WEBSITE — NOT AFFILIATED WITH OR ENDORSED BY SAUDI ARAMCO</p>
+  </footer>
+
+</div>
+</body>
+</html>

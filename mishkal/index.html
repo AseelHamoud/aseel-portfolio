@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مِشكال — لوحة رسم متناظرة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:   #0c1a21;   /* قيشاني ليلي */
+    --night-2: #071016;
+    --brass:   #d9a441;   /* نحاسي */
+    --brass-2: #f0c26b;
+    --parch:   #f2ecdf;   /* رَقّ */
+    --muted:   #8fa3a8;
+    --glass:   rgba(10, 24, 31, .72);
+    --line:    rgba(217, 164, 65, .28);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--night-2);
+    color: var(--parch);
+    font-family: "IBM Plex Sans Arabic", "Tajawal", -apple-system, "Geeza Pro", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  canvas.layer { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #art   { touch-action: none; cursor: crosshair; }
+  #guide { pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+
+  /* ــــ العنوان ــــ */
+  header {
+    position: fixed; top: 18px; inset-inline-start: 24px;
+    pointer-events: none; user-select: none; z-index: 3;
+  }
+  header h1 {
+    font-family: "Aref Ruqaa", "Geeza Pro", serif;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 700; line-height: 1.1;
+    color: var(--brass);
+    text-shadow: 0 2px 18px rgba(217, 164, 65, .25);
+  }
+  header p { font-size: .8rem; color: var(--muted); letter-spacing: .02em; }
+
+  /* ــــ التلميح الأول ــــ */
+  #hint {
+    position: fixed; inset: 0; display: grid; place-items: center;
+    pointer-events: none; z-index: 2;
+    transition: opacity 1s ease; color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+  #hint.gone { opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    #hint span { animation: breathe 3s ease-in-out infinite; display: inline-block; }
+    @keyframes breathe { 50% { opacity: .45; } }
+  }
+
+  /* ــــ شريط الأدوات النحاسي ــــ */
+  #bar {
+    position: fixed; bottom: max(14px, env(safe-area-inset-bottom)); inset-inline: 0;
+    display: flex; justify-content: center; z-index: 4; pointer-events: none;
+  }
+  #bar > .rail {
+    pointer-events: auto;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 10px 18px;
+    max-width: min(92vw, 880px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.45);
+  }
+  .group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .group > .cap { font-size: .68rem; color: var(--muted); }
+  .row { display: flex; align-items: center; gap: 8px; }
+
+  /* شارة النجمة */
+  #star { width: 40px; height: 40px; flex: none; }
+  #symCount {
+    min-width: 2ch; text-align: center; color: var(--brass-2);
+    font-weight: 600; font-size: 1.05rem; font-feature-settings: normal;
+  }
+
+  input[type="range"] {
+    appearance: none; -webkit-appearance: none;
+    width: 110px; height: 22px; background: transparent; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 3px; border-radius: 2px; background: var(--line);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--brass); margin-top: -6px;
+    border: 2px solid var(--night); box-shadow: 0 0 0 1px var(--line);
+  }
+  input[type="range"]::-moz-range-track { height: 3px; border-radius: 2px; background: var(--line); }
+  input[type="range"]::-moz-range-thumb {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--brass);
+    border: 2px solid var(--night);
+  }
+
+  /* أزرار وأقراص */
+  button, .pill {
+    font: inherit; font-size: .85rem; color: var(--parch);
+    background: transparent; border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 14px; cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+    user-select: none;
+  }
+  button:hover { background: rgba(217, 164, 65, .12); border-color: var(--brass); }
+  button:active { transform: translateY(1px); }
+  :is(button, input, .pill):focus-visible {
+    outline: 2px solid var(--brass-2); outline-offset: 2px;
+  }
+  .pill { display: inline-flex; align-items: center; gap: 6px; }
+  .pill input { position: absolute; opacity: 0; pointer-events: none; }
+  .pill[data-on="true"] {
+    background: rgba(217, 164, 65, .18); border-color: var(--brass); color: var(--brass-2);
+  }
+  #saveBtn { border-color: var(--brass); color: var(--brass-2); font-weight: 600; }
+
+  input[type="color"] {
+    appearance: none; -webkit-appearance: none;
+    width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%;
+    background: none; padding: 0; cursor: pointer;
+  }
+  input[type="color"]::-webkit-color-swatch-wrapper { padding: 3px; }
+  input[type="color"]::-webkit-color-swatch { border: none; border-radius: 50%; }
+  input[type="color"]:disabled { opacity: .3; cursor: not-allowed; }
+
+  .sep { width: 1px; align-self: stretch; background: var(--line); margin-block: 4px; }
+
+  /* ــــ إشعار ــــ */
+  #toast {
+    position: fixed; bottom: 96px; inset-inline: 0; display: flex; justify-content: center;
+    pointer-events: none; z-index: 5;
+  }
+  #toast span {
+    background: var(--glass); border: 1px solid var(--line); color: var(--brass-2);
+    padding: 8px 20px; border-radius: 999px; font-size: .85rem;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  #toast.show span { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    #bar > .rail { gap: 12px; padding: 8px 12px; }
+    input[type="range"] { width: 84px; }
+    header { inset-inline-start: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="art" class="layer"></canvas>
+<canvas id="guide" class="layer"></canvas>
+
+<header>
+  <h1>مِشكال</h1>
+  <p>لوحة رسمٍ متناظرة</p>
+</header>
+
+<div id="hint"><span>المس اللوحة وارسم — كل خطٍّ يتحوّل إلى نجمة</span></div>
+
+<div id="bar">
+  <div class="rail">
+
+    <div class="group">
+      <span class="cap" id="symCap">التناظر</span>
+      <div class="row">
+        <svg id="star" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
+        <span id="symCount" aria-live="polite">٨</span>
+        <input type="range" id="sym" min="2" max="24" step="1" value="8" aria-labelledby="symCap">
+      </div>
+    </div>
+
+    <div class="sep" aria-hidden="true"></div>
+
+    <div class="group">
+      <span class="cap" id="brushCap">الفرشاة</span>
+      <div class="row">
+        <input type="range" id="brush" min="2" max="30" step="1" value="7" aria-labelledby="brushCap">
+      </div>
+    </div>
+
+    <div class="sep" aria-hidden="true"></div>
+
+    <div class="group">
+      <span class="cap">اللون</span>
+      <div class="row">
+        <label class="pill" id="rainbowPill" data-on="true">
+          <input type="checkbox" id="rainbow" checked>
+          قوس قزح
+        </label>
+        <input type="color" id="color" value="#63d8c7" disabled aria-label="لون ثابت">
+        <label class="pill" id="mirrorPill" data-on="true">
+          <input type="checkbox" id="mirror" checked>
+          مرآة
+        </label>
+      </div>
+    </div>
+
+    <div class="sep" aria-hidden="true"></div>
+
+    <div class="group">
+      <span class="cap">اللوحة</span>
+      <div class="row">
+        <button id="undoBtn">تراجع</button>
+        <button id="clearBtn">مسح</button>
+        <button id="saveBtn">حفظ الصورة</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"><span></span></div>
+
+<script>
+"use strict";
+
+const art   = document.getElementById("art");
+const guide = document.getElementById("guide");
+const ctx   = art.getContext("2d");
+const gtx   = guide.getContext("2d");
+
+const ui = {
+  sym:     document.getElementById("sym"),
+  symCount:document.getElementById("symCount"),
+  star:    document.getElementById("star"),
+  brush:   document.getElementById("brush"),
+  rainbow: document.getElementById("rainbow"),
+  rainbowPill: document.getElementById("rainbowPill"),
+  color:   document.getElementById("color"),
+  mirror:  document.getElementById("mirror"),
+  mirrorPill: document.getElementById("mirrorPill"),
+  undo:    document.getElementById("undoBtn"),
+  clear:   document.getElementById("clearBtn"),
+  save:    document.getElementById("saveBtn"),
+  hint:    document.getElementById("hint"),
+  toast:   document.getElementById("toast"),
+};
+
+const arDigits = n => n.toLocaleString("ar-EG");
+
+let cssW = 0, cssH = 0;
+let sym = +ui.sym.value;
+let hue = Math.random() * 360;
+
+/* ــــ تجهيز اللوحة ــــ */
+
+function dpr() { return Math.min(window.devicePixelRatio || 1, 3); }
+
+function paintBg() {
+  const r = Math.hypot(cssW, cssH) / 2;
+  const g = ctx.createRadialGradient(cssW/2, cssH/2, 0, cssW/2, cssH/2, r);
+  g.addColorStop(0, "#10222b");
+  g.addColorStop(1, "#07131a");
+  ctx.save();
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, cssW, cssH);
+  ctx.restore();
+}
+
+function resize() {
+  const w = window.innerWidth, h = window.innerHeight, d = dpr();
+  let old = null, ow = cssW, oh = cssH;
+  if (art.width > 0) {
+    old = document.createElement("canvas");
+    old.width = art.width; old.height = art.height;
+    old.getContext("2d").drawImage(art, 0, 0);
+  }
+  for (const [c, x] of [[art, ctx], [guide, gtx]]) {
+    c.width = w * d; c.height = h * d;
+    x.setTransform(d, 0, 0, d, 0, 0);
+  }
+  cssW = w; cssH = h;
+  paintBg();
+  if (old) ctx.drawImage(old, (w - ow) / 2, (h - oh) / 2, ow, oh);
+  drawGuide();
+}
+window.addEventListener("resize", resize);
+
+/* ــــ الرسم المتناظر ــــ */
+
+function strokeColor() {
+  return ui.rainbow.checked ? `hsl(${hue} 85% 62%)` : ui.color.value;
+}
+
+function segment(x0, y0, x1, y1, width) {
+  const cx = cssW / 2, cy = cssH / 2;
+  ctx.save();
+  ctx.globalCompositeOperation = "lighter";
+  ctx.strokeStyle = strokeColor();
+  ctx.lineWidth = width;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.translate(cx, cy);
+  const ax0 = x0 - cx, ay0 = y0 - cy, ax1 = x1 - cx, ay1 = y1 - cy;
+  for (let i = 0; i < sym; i++) {
+    ctx.save();
+    ctx.rotate((i * 2 * Math.PI) / sym);
+    ctx.beginPath(); ctx.moveTo(ax0, ay0); ctx.lineTo(ax1, ay1); ctx.stroke();
+    if (ui.mirror.checked) {
+      ctx.scale(1, -1);
+      ctx.beginPath(); ctx.moveTo(ax0, ay0); ctx.lineTo(ax1, ay1); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+let drawing = false, px = 0, py = 0;
+
+art.addEventListener("pointerdown", e => {
+  if (e.button !== 0 && e.pointerType === "mouse") return;
+  art.setPointerCapture(e.pointerId);
+  drawing = true;
+  px = e.clientX; py = e.clientY;
+  pushUndo();
+  ui.hint.classList.add("gone");
+  segment(px, py, px, py, brushWidth(e));
+});
+
+art.addEventListener("pointermove", e => {
+  if (!drawing) return;
+  const events = e.getCoalescedEvents?.() ?? [];
+  for (const ev of events.length ? events : [e]) {
+    const x = ev.clientX, y = ev.clientY;
+    const dist = Math.hypot(x - px, y - py);
+    if (dist < 1) continue;
+    if (ui.rainbow.checked) hue = (hue + dist * 0.35) % 360;
+    segment(px, py, x, y, brushWidth(ev));
+    px = x; py = y;
+  }
+});
+
+const stopDrawing = () => { drawing = false; };
+art.addEventListener("pointerup", stopDrawing);
+art.addEventListener("pointercancel", stopDrawing);
+
+function brushWidth(e) {
+  const base = +ui.brush.value;
+  const p = e.pressure && e.pressure !== 0.5 ? 0.35 + e.pressure * 1.3 : 1;
+  return base * p;
+}
+
+/* ــــ خطوط البناء (تظهر عند تغيير التناظر) ــــ */
+
+let guideTimer = 0;
+function drawGuide() {
+  gtx.clearRect(0, 0, cssW, cssH);
+  const cx = cssW / 2, cy = cssH / 2;
+  const r = Math.hypot(cssW, cssH) / 2;
+  gtx.save();
+  gtx.translate(cx, cy);
+  gtx.strokeStyle = "rgba(217, 164, 65, .22)";
+  gtx.lineWidth = 1;
+  for (let i = 0; i < sym; i++) {
+    gtx.save();
+    gtx.rotate((i * 2 * Math.PI) / sym);
+    gtx.beginPath(); gtx.moveTo(0, 0); gtx.lineTo(r, 0); gtx.stroke();
+    gtx.restore();
+  }
+  gtx.beginPath();
+  gtx.arc(0, 0, Math.min(cssW, cssH) * 0.42, 0, 2 * Math.PI);
+  gtx.stroke();
+  gtx.restore();
+}
+
+function flashGuide(ms = 1200) {
+  drawGuide();
+  guide.style.opacity = "1";
+  clearTimeout(guideTimer);
+  guideTimer = setTimeout(() => { guide.style.opacity = "0"; }, ms);
+}
+
+/* ــــ شارة النجمة ــــ */
+
+function drawStar() {
+  const n = sym, R = 42, r = 19;
+  let d = "";
+  for (let i = 0; i < n * 2; i++) {
+    const rad = i % 2 === 0 ? R : r;
+    const a = (i * Math.PI) / n - Math.PI / 2;
+    d += (i ? "L" : "M") + (rad * Math.cos(a)).toFixed(1) + " " + (rad * Math.sin(a)).toFixed(1);
+  }
+  ui.star.innerHTML =
+    `<path d="${d}Z" fill="none" stroke="#d9a441" stroke-width="2.5" stroke-linejoin="round"/>`;
+}
+
+/* ــــ التراجع والمسح والحفظ ــــ */
+
+const undoStack = [];
+function pushUndo() {
+  const snap = document.createElement("canvas");
+  snap.width = art.width; snap.height = art.height;
+  snap.getContext("2d").drawImage(art, 0, 0);
+  undoStack.push({ c: snap, w: cssW, h: cssH });
+  if (undoStack.length > 12) undoStack.shift();
+}
+
+ui.undo.addEventListener("click", () => {
+  const s = undoStack.pop();
+  if (!s) { toast("لا شيء للتراجع عنه"); return; }
+  paintBg();
+  ctx.drawImage(s.c, (cssW - s.w) / 2, (cssH - s.h) / 2, s.w, s.h);
+});
+
+ui.clear.addEventListener("click", () => {
+  pushUndo();
+  paintBg();
+  toast("لوحة جديدة — والتراجع يُعيد رسمتك");
+});
+
+ui.save.addEventListener("click", () => {
+  art.toBlob(blob => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "مشكال.png";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("حُفظت الصورة");
+  }, "image/png");
+});
+
+window.addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
+    e.preventDefault();
+    ui.undo.click();
+  }
+});
+
+/* ــــ عناصر التحكم ــــ */
+
+ui.sym.addEventListener("input", () => {
+  sym = +ui.sym.value;
+  ui.symCount.textContent = arDigits(sym);
+  drawStar();
+  flashGuide();
+});
+
+ui.rainbow.addEventListener("change", () => {
+  ui.color.disabled = ui.rainbow.checked;
+  ui.rainbowPill.dataset.on = ui.rainbow.checked;
+});
+ui.mirror.addEventListener("change", () => {
+  ui.mirrorPill.dataset.on = ui.mirror.checked;
+});
+ui.color.addEventListener("input", () => {
+  if (ui.rainbow.checked) { ui.rainbow.checked = false; ui.rainbow.dispatchEvent(new Event("change")); }
+});
+
+let toastTimer = 0;
+function toast(msg) {
+  ui.toast.querySelector("span").textContent = msg;
+  ui.toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => ui.toast.classList.remove("show"), 2200);
+}
+
+/* ــــ البداية ــــ */
+resize();
+drawStar();
+ui.symCount.textContent = arDigits(sym);
+flashGuide(2200);
+</script>
+</body>
+</html>

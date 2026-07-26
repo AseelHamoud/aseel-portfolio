@@ -1,0 +1,26 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Dependencies & build output (for later phases)
+node_modules/
+dist/
+build/
+.cache/
+
+# Environment & secrets
+.env
+.env.*
+
+# Local-only private material (certificates, raw evidence) — NEVER commit
+private/
+
+# Logs
+*.log
