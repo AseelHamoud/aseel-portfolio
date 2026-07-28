@@ -91,7 +91,8 @@ const STATUS_LABELS = {
 
 function renderProjects() {
   $('#project-list').innerHTML = CONTENT.projects.map((p) => `
-    <article class="project">
+    <article class="project${p.featured ? ' featured' : ''}">
+      ${p.featured ? `<span class="featured-tag">${esc(p.featuredTag || 'Flagship project')}</span>` : ''}
       <div class="project-head">
         <h3>${esc(p.title)}</h3>
         <span class="badge ${esc(p.status)}" title="${esc(p.statusNote || '')}">${STATUS_LABELS[p.status] || esc(p.status)}</span>
@@ -103,6 +104,10 @@ function renderProjects() {
         <div class="case-row"><dt>Impact</dt><dd>${esc(p.impact)}</dd></div>
         <div class="case-row"><dt>Tools</dt><dd class="tools">${p.tools.map((t) => `<span class="chip">${esc(t)}</span>`).join('')}</dd></div>
       </dl>
+      ${p.recognition ? `
+      <div class="recognition">
+        ${p.recognition.map((r) => `<div class="rec"><b>${esc(r.label)}</b><time>${esc(r.date)}</time></div>`).join('')}
+      </div>` : ''}
     </article>`).join('');
 }
 
@@ -231,9 +236,25 @@ function renderContact() {
 /* ---------- scroll behaviour ---------- */
 function initScroll() {
   const nav = $('#topnav');
+  const progress = $('#progress');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('is-stuck', window.scrollY > 8);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = max > 0 ? `${(window.scrollY / max) * 100}%` : '0';
   }, { passive: true });
+
+  // highlight the section currently in view
+  const navLinks = [...document.querySelectorAll('.top-links a[href^="#"]')];
+  const sectionObserver = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      navLinks.forEach((a) => a.classList.toggle('is-current', a.hash === '#' + e.target.id));
+    }
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  navLinks.forEach((a) => {
+    const sec = document.querySelector(a.hash);
+    if (sec) sectionObserver.observe(sec);
+  });
 
   const observer = new IntersectionObserver((entries) => {
     for (const e of entries) {
