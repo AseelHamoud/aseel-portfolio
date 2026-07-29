@@ -268,11 +268,10 @@ const CONTENT = {
      rendered without quotation marks. Replace with an exact excerpt later. */
   recommendation: {
     heading: "Professional Recommendation — YLAB 11 Application",
-    by: "Recommended by Ibrahim Almohammadi",
-    /* Deliberately a category, not a rank — accurate for a shift
-       coordinator or foreman without claiming a specific title.
-       TODO: replace with the exact title printed on the letter. */
-    byTitle: "Operations leadership, Saudi Aramco",
+    by: "Ibrahim Al-Mohammadi",
+    /* TODO: confirm against the exact title printed on the letter. */
+    byTitle: "Senior Operations Leader | Saudi Aramco",
+    byRelation: "Former Direct Supervisor",
     label: "Recommendation Highlights",
     summary:
       "Recognized for ownership, initiative, and continuous development, including his progression from Outside Operator to DCS Operator and his contribution to the start-up of Yanbu Distribution Hub. Ibrahim also highlighted Aseel’s ability to connect learning with execution, apply his Business Administration studies at work, and bring strong communication, customer focus, and organization from his commercial experience. He endorsed Aseel as someone who would represent the program with professionalism and integrity while creating value for employees and the organization.",

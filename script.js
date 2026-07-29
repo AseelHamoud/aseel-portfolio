@@ -217,6 +217,7 @@ function renderRecommendation() {
     <div class="rec-card">
       <p class="rec-by">${esc(r.by)}</p>
       ${r.byTitle ? `<p class="rec-title">${esc(r.byTitle)}</p>` : ''}
+      ${r.byRelation ? `<p class="rec-relation">${esc(r.byRelation)}</p>` : ''}
       <p class="rec-label">${esc(r.label)}</p>
       <p class="rec-text">${esc(r.summary)}</p>
     </div>`;

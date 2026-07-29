@@ -365,6 +365,7 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 .rec-by { font-family: var(--disp); font-weight: 700; font-size: 16px; }
 .rec-title { font-size: 14px; color: var(--brass); margin-top: 2px; }
+.rec-relation { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
 .rec-label {
   font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--brass); margin: 12px 0 8px;
