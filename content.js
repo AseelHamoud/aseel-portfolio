@@ -63,35 +63,49 @@ const CONTENT = {
 
   about: [
     "My story didn’t start in a control room. It started in sales — consumer technology, retail leadership, and later co-running a specialty-coffee business — where I learned customers, teams, and what ownership really means.",
+
     "In 2019 I joined Saudi Aramco, and in 2021 I moved into hands-on field operations and DCS control-room work — alongside operational coordination, SAP, documentation, safety, and workflow improvement. Working the frontline showed me where the real friction lives — and I kept turning that friction into practical, documented tools that teams actually use.",
     "Today I’m studying Business Administration at Saudi Electronic University while working rotating shifts. My operational background is my foundation — my direction is growth into business, process improvement, digital transformation, AI, training, and leadership.",
   ],
 
-  /* ---- Career journey (chronological) ----
+  /* ---- Career journey (most recent first) ----
      An entry with `stages` renders as one employer containing an
-     internal timeline — used for the connected Saudi Aramco journey. */
+     internal timeline — used for the connected Saudi Aramco journey.
+     Stages follow the same direction: newest at the top.            */
   experience: [
     {
-      company: "Huawei",
-      logo: "assets/logos/huawei.png",
-      role: "Part-Time Sales Representative",
-      period: null, // date not provided
-      points: [
-        "Engaged customers directly on the sales floor, understanding their needs before recommending a product.",
-        "Built detailed product knowledge across the range and presented features in terms customers cared about.",
-        "Gained practical sales experience in a fast-moving consumer-technology environment.",
-      ],
-    },
-    {
-      company: "Samsung",
-      logo: "assets/logos/samsung.png",
-      role: "Sales & Marketing Representative",
-      period: "Main Jeddah Branch — 2018",
-      points: [
-        "Owned the customer experience at the main branch, from first question to final purchase.",
-        "Presented products and demonstrated features to help customers choose confidently.",
-        "Supported marketing activities and in-branch promotions.",
-        "Delivered on sales performance targets.",
+      company: "Saudi Aramco",
+      logo: "assets/logos/aramco.png",
+      role: "Operations Department — September 2019 to Present",
+      period: null,
+      /* One employer, one connected internal journey. */
+      stages: [
+        {
+          title: "DCS / Control Room Operations",
+          subtitle: "2023 to Present",
+          text: "Progressed into DCS and control-room operations, including process monitoring, operational coordination, communication with field teams, and operational decision support.",
+        },
+        {
+          title: "Plant Commissioning & Start-Up Team",
+          subtitle: "Yanbu",
+          text: "Contributed directly to the commissioning and start-up of a newly established plant. Supported commissioning activities, field coordination, operational readiness, and the transition from the start-up phase into live operations.",
+          emphasis: true,
+        },
+        {
+          title: "Operations Assignment",
+          subtitle: "Jeddah",
+          text: "Gained frontline operations experience and supported daily operational activities during the Jeddah assignment.",
+        },
+        {
+          title: "Truck Loading Compliance & Driver Evaluation",
+          subtitle: "Rabigh",
+          text: "Verified driver and vehicle certifications before loading activities, conducted safety and compliance checks, and evaluated driver readiness against facility requirements.",
+        },
+        {
+          title: "Industrial Training Center — ITC",
+          subtitle: "Apprenticeship Training",
+          text: "Completed foundational technical and operational training in preparation for frontline operations responsibilities.",
+        },
       ],
     },
     {
@@ -107,38 +121,26 @@ const CONTENT = {
       ],
     },
     {
-      company: "Saudi Aramco",
-      logo: "assets/logos/aramco.png",
-      role: "Operations Department — September 2019 to Present",
-      period: null,
-      /* One employer, one connected internal journey. */
-      stages: [
-        {
-          title: "Industrial Training Center — ITC",
-          subtitle: "Apprenticeship Training",
-          text: "Completed foundational technical and operational training in preparation for frontline operations responsibilities.",
-        },
-        {
-          title: "Truck Loading Compliance & Driver Evaluation",
-          subtitle: "Rabigh",
-          text: "Verified driver and vehicle certifications before loading activities, conducted safety and compliance checks, and evaluated driver readiness against facility requirements.",
-        },
-        {
-          title: "Operations Assignment",
-          subtitle: "Jeddah",
-          text: "Gained frontline operations experience and supported daily operational activities during the Jeddah assignment.",
-        },
-        {
-          title: "Plant Commissioning & Start-Up Team",
-          subtitle: "Yanbu",
-          text: "Contributed directly to the commissioning and start-up of a newly established plant. Supported commissioning activities, field coordination, operational readiness, and the transition from the start-up phase into live operations.",
-          emphasis: true,
-        },
-        {
-          title: "DCS / Control Room Operations",
-          subtitle: "2023 to Present",
-          text: "Progressed into DCS and control-room operations, including process monitoring, operational coordination, communication with field teams, and operational decision support.",
-        },
+      company: "Samsung",
+      logo: "assets/logos/samsung.png",
+      role: "Sales & Marketing Representative",
+      period: "Main Jeddah Branch — 2018",
+      points: [
+        "Owned the customer experience at the main branch, from first question to final purchase.",
+        "Presented products and demonstrated features to help customers choose confidently.",
+        "Supported marketing activities and in-branch promotions.",
+        "Delivered on sales performance targets.",
+      ],
+    },
+    {
+      company: "Huawei",
+      logo: "assets/logos/huawei.png",
+      role: "Part-Time Sales Representative",
+      period: null, // date not provided
+      points: [
+        "Engaged customers directly on the sales floor, understanding their needs before recommending a product.",
+        "Built detailed product knowledge across the range and presented features in terms customers cared about.",
+        "Gained practical sales experience in a fast-moving consumer-technology environment.",
       ],
     },
     /* Kept for later — the specialty-coffee partnership (approx. 2021–2025,

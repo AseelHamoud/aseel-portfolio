@@ -272,11 +272,11 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 /* Wider box so wide wordmarks (Samsung, Aramco) carry the same optical
    weight as the taller marks; the height cap keeps tall marks in line. */
 .logo-box {
-  width: 112px; height: 54px; flex: none;
+  width: 132px; height: 58px; flex: none;
   display: grid; place-items: center;
 }
 .logo-box img {
-  max-width: 112px; max-height: 48px;
+  max-width: 132px; max-height: 52px;
   width: auto; height: auto; object-fit: contain;
 }
 .logo-fallback {
@@ -288,14 +288,14 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .job-title .role { font-size: 14.5px; color: var(--brass); font-weight: 500; margin-top: 2px; }
 .job-title .period { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
 
-.job-points { list-style: none; margin-top: 16px; padding-left: 132px; }
+.job-points { list-style: none; margin-top: 16px; padding-left: 152px; }
 .job-points li { color: var(--muted); font-size: 15px; padding-left: 18px; position: relative; }
 .job-points li + li { margin-top: 5px; }
 .job-points li::before { content: "—"; position: absolute; left: 0; color: var(--brass); }
 
 /* internal stages — one connected journey inside a single employer */
 .stages {
-  list-style: none; margin-top: 22px; margin-left: 132px;
+  list-style: none; margin-top: 22px; margin-left: 152px;
   position: relative; padding-left: 26px;
 }
 .stages::before {
