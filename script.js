@@ -216,6 +216,7 @@ function renderRecommendation() {
   $('#rec-body').innerHTML = `
     <div class="rec-card">
       <p class="rec-by">${esc(r.by)}</p>
+      ${r.byTitle ? `<p class="rec-title">${esc(r.byTitle)}</p>` : ''}
       <p class="rec-label">${esc(r.label)}</p>
       <p class="rec-text">${esc(r.summary)}</p>
     </div>`;
