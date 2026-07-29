@@ -3,9 +3,9 @@
    Edit this file to update the website. No design knowledge needed.
 
    Rules of this file (agreed with Aseel):
-   - Never invent facts. Anything unconfirmed is marked TODO_VERIFY.
-   - Numbers on the site are COMPUTED from the real entries below —
-     add entries and the dashboard updates itself.
+   - Never invent facts, dates, providers, durations, or results.
+   - Anything unconfirmed is left as null and renders as a clear placeholder.
+   - Every list below is meant to grow — add entries, the page follows.
    ============================================================ */
 
 const TODO_VERIFY = null; // placeholder marker — renders as a clearly-labeled placeholder
@@ -13,28 +13,53 @@ const TODO_VERIFY = null; // placeholder marker — renders as a clearly-labeled
 const CONTENT = {
 
   meta: {
-    title: "Aseel Hamoud — Operations, Business & Process Improvement",
+    title: "Aseel Hamoud — Operations Professional with a Business Mindset",
     description:
-      "Aseel Hamoud combines hands-on industrial operations experience with business education and digital problem-solving — building practical tools, improving workflows, and developing toward business, technology, and leadership roles.",
+      "Aseel Hamoud combines hands-on operational experience with business thinking and digital problem-solving — building practical tools, improving workflows, and developing toward business, technology, and leadership roles.",
   },
 
   identity: {
     name: "Aseel Hamoud",
-    headline: "Operations Professional · Business Administration · Process Improvement & Digital Solutions",
+    headline: "Operations Professional with a Business Mindset",
+    tagline: "Operations experience. Business mindset. Broader ambition.",
     intro:
-      "I combine hands-on operational experience with business thinking and digital problem-solving. I focus on identifying practical problems, improving workflows, building useful tools, and continuously developing my skills across operations, business, safety, and technology.",
-    location: "Yanbu, Saudi Arabia",
-    // Confirmed: joined Saudi Aramco 8 Sept 2019; hands-on operations/DCS role since 2021.
-    aramcoJoined: "2019-09-08",
+      "I combine hands-on operational experience with business thinking and digital problem-solving. I focus on identifying practical problems, improving workflows, building useful tools, and continuously developing my skills across operations, business, safety, and technology, while strengthening my leadership, communication, and personal effectiveness.",
     photo: "assets/aseel.jpg", // temporary photo — replace with a professional portrait later
   },
 
   links: {
     email: "bnhamoud22@gmail.com",
-    linkedin: TODO_VERIFY, // TODO: add LinkedIn URL
-    github: TODO_VERIFY,   // TODO: add GitHub URL
-    cv: TODO_VERIFY,       // TODO: add CV file path when ready
+    linkedin: TODO_VERIFY, // TODO: add LinkedIn URL — button stays visible either way
+    cv: TODO_VERIFY,       // TODO: add CV file path — button stays visible either way
   },
+
+  /* ---- Professional statistics ----
+     Add or edit cards freely. `breakdown` is optional and renders
+     as a clearly-linked split of the main figure.                  */
+  stats: [
+    {
+      value: "6+",
+      unit: "Years",
+      label: "At Saudi Aramco",
+      note: "September 2019 to present",
+    },
+    {
+      value: "132",
+      label: "Learning Hours",
+      note: "recorded internal learning",
+    },
+    {
+      value: "100",
+      label: "Internal Learning Activities",
+      breakdownLabel: "Made up of",
+      breakdown: [
+        { value: "70", label: "e-Learning Activities" },
+        { value: "30", label: "Instructor-Led / Classroom Activities" },
+      ],
+    },
+    // Project counts and other professional figures are being reviewed —
+    // add them here when confirmed.
+  ],
 
   about: [
     "My story didn’t start in a control room. It started in sales — consumer technology, retail leadership, and later co-running a specialty-coffee business — where I learned customers, teams, and what ownership really means.",
@@ -42,65 +67,165 @@ const CONTENT = {
     "Today I’m studying Business Administration at Saudi Electronic University while working rotating shifts. My operational background is my foundation — my direction is growth into business, process improvement, digital transformation, AI, training, and leadership.",
   ],
 
-  /* ---- Selected projects (case studies) ----
-     status: "verified" | "delivered" | "in-progress" | "prototype" | "research"
-     Impact must stay qualitative unless a number is verified.       */
+  /* ---- Career journey (chronological) ----
+     An entry with `stages` renders as one employer containing an
+     internal timeline — used for the connected Saudi Aramco journey. */
+  experience: [
+    {
+      company: "Huawei",
+      logo: "assets/logos/huawei.png",
+      role: "Part-Time Sales Representative",
+      period: null, // date not provided
+      points: [
+        "Engaged customers directly on the sales floor, understanding their needs before recommending a product.",
+        "Built detailed product knowledge across the range and presented features in terms customers cared about.",
+        "Gained practical sales experience in a fast-moving consumer-technology environment.",
+      ],
+    },
+    {
+      company: "Samsung",
+      logo: "assets/logos/samsung.png",
+      role: "Sales & Marketing Representative",
+      period: "Main Jeddah Branch — 2018",
+      points: [
+        "Owned the customer experience at the main branch, from first question to final purchase.",
+        "Presented products and demonstrated features to help customers choose confidently.",
+        "Supported marketing activities and in-branch promotions.",
+        "Delivered on sales performance targets.",
+      ],
+    },
+    {
+      company: "Al Nukaly",
+      logo: "assets/logos/alnukaly.png",
+      role: "Branch Manager — 2019",
+      period: null,
+      points: [
+        "Ran daily branch operations and kept the branch's day-to-day requirements covered.",
+        "Coordinated the team, organised shifts and responsibilities, and kept the floor running.",
+        "Held responsibility for customer service standards.",
+        "Carried sales and business responsibility for the branch.",
+      ],
+    },
+    {
+      company: "Saudi Aramco",
+      logo: "assets/logos/aramco.png",
+      role: "Operations Department — September 2019 to Present",
+      period: null,
+      /* One employer, one connected internal journey. */
+      stages: [
+        {
+          title: "Industrial Training Center — ITC",
+          subtitle: "Apprenticeship Training",
+          text: "Completed foundational technical and operational training in preparation for frontline operations responsibilities.",
+        },
+        {
+          title: "Truck Loading Compliance & Driver Evaluation",
+          subtitle: "Rabigh",
+          text: "Verified driver and vehicle certifications before loading activities, conducted safety and compliance checks, and evaluated driver readiness against facility requirements.",
+        },
+        {
+          title: "Operations Assignment",
+          subtitle: "Jeddah",
+          text: "Gained frontline operations experience and supported daily operational activities during the Jeddah assignment.",
+        },
+        {
+          title: "Plant Commissioning & Start-Up Team",
+          subtitle: "Yanbu",
+          text: "Contributed directly to the commissioning and start-up of a newly established plant. Supported commissioning activities, field coordination, operational readiness, and the transition from the start-up phase into live operations.",
+          emphasis: true,
+        },
+        {
+          title: "DCS / Control Room Operations",
+          subtitle: "2023 to Present",
+          text: "Progressed into DCS and control-room operations, including process monitoring, operational coordination, communication with field teams, and operational decision support.",
+        },
+      ],
+    },
+    /* Kept for later — the specialty-coffee partnership (approx. 2021–2025,
+       responsible for staff, operations, and supply). Re-add here when the
+       public wording and dates are settled:
+    {
+      company: "Specialty coffee — partnership",
+      logo: null,
+      role: "Co-founder & Manager",
+      period: "2021 — 2025",
+      points: ["Responsible for staff, daily operations, and supply — from opening to handover."],
+    },
+    */
+  ],
+
+  /* ---- Projects & practical solutions ----
+     No status labels. Use accurate contribution verbs only.
+     `tags` are simple categories. `evidence` is optional.          */
   projects: [
     {
-      title: "Isolation Points Digital Reference",
-      status: "verified",
-      statusNote: "Recognized 2023–2024",
-      featured: true,
-      featuredTag: "Flagship project",
-      challenge: "Critical isolation information was scattered and slow to locate when teams needed it most — costing time exactly when time mattered.",
-      role: "Initiated and led the effort — collected, structured, and standardized the information into one dependable source.",
-      solution: "Consolidated 500+ equipment and isolation points into one structured digital reference, organized for fast, reliable lookup.",
-      impact: "Changed how teams locate and understand isolation information, and was presented to management and audit stakeholders.",
-      recognition: [
-        { label: "NRDD Manager Appreciation", date: "Nov 2023" },
-        { label: "WRDD & NRDD Director Certificate", date: "Jun 2024" },
-      ],
-      tools: ["Structured documentation", "Digital reference design"],
+      title: "Electrical Isolation Points Reference Tool",
+      tags: ["Digital Tool", "Operational Solution", "Safety Improvement"],
+      challenge:
+        "Electrical isolation references were spread across separate sources. Finding the isolation point for a given piece of equipment — and the breaker platform it belonged to — took time and repeated cross-checking, in situations where clarity matters most.",
+      contribution:
+        "I initiated the work, gathered and verified the references, designed how the records should be structured, and built the tool in Excel.",
+      solution:
+        "An Excel-based reference tool consolidating 638+ equipment and electrical isolation-point references into one place. It covers equipment such as MOVs and pumps, their electrical isolation locations, and their associated breaker-platform references. Navigation is handled through background-image hyperlinks so users move straight to the area they need, and the worksheet structure is controlled and protected so records stay consistent.",
+      tools: ["Microsoft Excel", "Structured equipment records", "Background-image hyperlinks", "Protected worksheet structure"],
+      value:
+        "Puts scattered isolation references in one organised place, making the information faster to locate and easier to read correctly.",
+      evidence: "Presented to management, and used during review.",
     },
     {
       title: "Operational Checklist & Performance Dashboard",
-      status: "in-progress",
-      statusNote: "Actively developed",
-      challenge: "Weekly, monthly, and quarterly tasks were tracked on fragmented paper — poor visibility, unclear ownership.",
-      role: "Designed and built the system end to end.",
-      solution: "An Excel-based dashboard managing recurring operational tasks with status tracking and current-period views.",
-      impact: "Clearer ownership, better follow-up, and one place to see the current period at a glance.",
+      tags: ["Digital Tool", "Process Improvement"],
+      challenge:
+        "Weekly, monthly, and quarterly tasks were tracked on fragmented paper records — hard to see what was current, and unclear who owned what.",
+      contribution: "Designed and built the system end to end.",
+      solution:
+        "An Excel-based dashboard that manages recurring operational tasks with status tracking and a current-period view.",
       tools: ["Microsoft Excel", "Dashboard logic"],
+      value:
+        "One place to see the current period at a glance, with clearer ownership and easier follow-up.",
+      evidence: null,
     },
     {
       title: "Tank Calculation & Operational Decision Support",
-      status: "prototype",
-      statusNote: "Concepts & prototypes",
-      challenge: "Time-critical operational calculations involved multiple inputs and constraints, with room for manual error.",
-      role: "Designed calculation concepts and prototype tools.",
-      solution: "Structured calculators that validate inputs and support faster, more reliable operational decisions.",
-      impact: "Aimed at reducing manual error and decision time in complex tank and pipeline operations.",
+      tags: ["Digital Tool", "Operational Solution"],
+      challenge:
+        "Time-critical operational calculations involve multiple inputs and constraints, leaving room for manual error.",
+      contribution: "Designed the calculation approach and built working prototypes.",
+      solution:
+        "Structured calculators that validate inputs and lay out the constraints, so the numbers behind a decision are visible and checkable.",
       tools: ["Microsoft Excel", "Validation logic"],
+      value:
+        "Aims to reduce manual error and shorten the time it takes to reach a checked answer.",
+      evidence: null,
     },
     {
       title: "Training & Progress Tracker",
-      status: "delivered",
-      statusNote: "Wording under review",
-      challenge: "Employee training and development progress lacked clear visibility.",
-      role: "Built the tracker structure.",
-      solution: "A structured tracker showing training status and development progress in one view.",
-      impact: "Improved visibility of team development.",
+      tags: ["Learning & Development", "Process Improvement"],
+      challenge: "Training and development progress was hard to see in one view.",
+      contribution: "Built the tracker structure.",
+      solution:
+        "A structured tracker showing training status and development progress together.",
       tools: ["Microsoft Excel"],
+      value: "Makes development progress visible instead of scattered.",
+      evidence: null,
     },
+    // More projects and practical solutions will be added here.
   ],
-  /* Some items are intentionally unpublished for now. */
 
-  /* ---- Continuous learning ----
-     The dashboard computes totals from these entries.
-     minutes: real duration in minutes (verified only).             */
+  /* ---- Learning & credentials ----
+     Internal company learning is kept separate from external credentials. */
   learning: {
-    categories: ["AI & Digital Tools", "Business & Leadership", "Safety", "Operations", "Process Improvement"],
-    verified: [
+    internal: {
+      hours: 132,
+      activities: 100,
+      breakdown: [
+        { value: 70, label: "e-Learning Activities" },
+        { value: 30, label: "Instructor-Led / Classroom Activities" },
+      ],
+      note: "Recorded internal company learning. The 70 and 30 figures are activity counts and together make up the 100 internal learning activities.",
+    },
+    categories: ["Operations", "Safety", "Business & Leadership", "AI & Digital Tools", "Personal Development"],
+    external: [
       {
         title: "ChatGPT & Its Practical Use Cases",
         provider: "Skillsoft – T&D",
@@ -117,58 +242,10 @@ const CONTENT = {
         completed: "24 July 2026",
         certificate: null, // TODO: add certificate image/PDF path
       },
-    ],
-    independent: [
-      // Books, research, practice, self-directed learning — add entries here.
+      // Add credentials here as they are confirmed. Do not add a course
+      // until its provider, date, and duration are known.
     ],
   },
-
-  experience: [
-    {
-      role: "Operations — Field & DCS",
-      org: "Saudi Aramco",
-      location: "Yanbu",
-      start: "2019",
-      end: "Present",
-      points: [
-        "Joined in 2019; hands-on field operations and DCS control-room experience since 2021, on rotating shifts.",
-        "Operational coordination, SAP, documentation, and safety practices.",
-        "Built practical workflow-improvement tools recognized by management.",
-      ],
-    },
-    {
-      role: "Co-founder & Manager — specialty coffee",
-      org: "Café partnership", // TODO: confirm public English name
-      location: "",
-      start: "2021",
-      end: "2025",
-      points: [
-        "Responsible for staff, daily operations, and supply — from opening to handover.",
-        "Customer experience, cost awareness, and small-business leadership in practice.",
-      ],
-    },
-    {
-      role: "Retail Branch Manager",
-      org: "Consumer technology retail", // TODO: confirm employer name + dates
-      location: "",
-      start: TODO_VERIFY,
-      end: TODO_VERIFY,
-      points: [
-        "Led branch staff and daily retail operations.",
-        "Accountability for targets, customer experience, and team performance.",
-      ],
-    },
-    {
-      role: "Sales — Samsung & Huawei products",
-      org: "Consumer technology sales", // TODO: confirm employer name + dates
-      location: "",
-      start: TODO_VERIFY,
-      end: TODO_VERIFY,
-      points: [
-        "Consumer-technology sales and marketing — where customer understanding started.",
-      ],
-    },
-  ],
 
   education: {
     degree: "Bachelor of Business Administration",
@@ -184,11 +261,18 @@ const CONTENT = {
     "Digital Tools": ["Microsoft Excel", "SAP", "Power BI", "Microsoft 365", "GitHub", "ChatGPT & AI Tools"],
   },
 
-  recommendations: [
-    // Future supervisor & colleague recommendations. Do not invent quotes.
-  ],
+  /* ---- Professional recommendation ----
+     `summary` is a faithful summary, not a verbatim quotation — so it is
+     rendered without quotation marks. Replace with an exact excerpt later. */
+  recommendation: {
+    heading: "Professional Recommendation — YLAB 11 Application",
+    by: "Recommended by Ibrahim Almohammadi",
+    label: "Recommendation Highlights",
+    summary:
+      "Recognized for ownership, initiative, and continuous development, including his progression from Outside Operator to DCS Operator and his contribution to the start-up of Yanbu Distribution Hub. Ibrahim also highlighted Aseel’s ability to connect learning with execution, apply his Business Administration studies at work, and bring strong communication, customer focus, and organization from his commercial experience. He endorsed Aseel as someone who would represent the program with professionalism and integrity while creating value for employees and the organization.",
+  },
 
   footer: {
-    disclaimer: "Personal website — not affiliated with or endorsed by Saudi Aramco.",
+    disclaimer: "Personal website — not affiliated with or endorsed by Saudi Aramco. Company names and logos are the property of their respective owners and are shown to identify past and current employers.",
   },
 };
