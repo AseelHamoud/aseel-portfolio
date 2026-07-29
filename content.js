@@ -27,6 +27,13 @@ const CONTENT = {
     photo: "assets/aseel.jpg", // temporary photo — replace with a professional portrait later
   },
 
+  /* ---- Availability ---- set `open: false` to hide the badge ---- */
+  availability: {
+    open: true,
+    label: "Open to selected opportunities",
+    kinds: ["Collaboration", "Development Programs", "Business Projects"],
+  },
+
   links: {
     email: "bnhamoud22@gmail.com",
     linkedin: TODO_VERIFY, // TODO: add LinkedIn URL — button stays visible either way
@@ -38,10 +45,8 @@ const CONTENT = {
      as a clearly-linked split of the main figure.                  */
   stats: [
     {
-      value: "6+",
-      unit: "Years",
-      label: "At Saudi Aramco",
-      note: "September 2019 to present",
+      value: "7+",
+      label: "Years of Experience",
     },
     {
       value: "132",
@@ -75,6 +80,7 @@ const CONTENT = {
   experience: [
     {
       company: "Saudi Aramco",
+      website: "https://www.aramco.com",
       logo: "assets/logos/aramco.png",
       role: "Operations Department — September 2019 to Present",
       period: null,
@@ -110,6 +116,7 @@ const CONTENT = {
     },
     {
       company: "Al Nukaly",
+      website: "https://alnukaly.com",
       logo: "assets/logos/alnukaly.png",
       role: "Branch Manager — 2019",
       period: null,
@@ -122,6 +129,7 @@ const CONTENT = {
     },
     {
       company: "Samsung",
+      website: "https://www.samsung.com",
       logo: "assets/logos/samsung.png",
       role: "Sales & Marketing Representative",
       period: "Main Jeddah Branch — 2018",
@@ -134,6 +142,7 @@ const CONTENT = {
     },
     {
       company: "Huawei",
+      website: "https://www.huawei.com",
       logo: "assets/logos/huawei.png",
       role: "Part-Time Sales Representative",
       period: null, // date not provided
@@ -162,6 +171,7 @@ const CONTENT = {
   projects: [
     {
       title: "Electrical Isolation Points Reference Tool",
+      featured: true,
       tags: ["Digital Tool", "Operational Solution", "Safety Improvement"],
       challenge:
         "Electrical isolation references were spread across separate sources. Finding the isolation point for a given piece of equipment — and the breaker platform it belonged to — took time and repeated cross-checking, in situations where clarity matters most.",
@@ -176,6 +186,7 @@ const CONTENT = {
     },
     {
       title: "Operational Checklist & Performance Dashboard",
+      featured: true,
       tags: ["Digital Tool", "Process Improvement"],
       challenge:
         "Weekly, monthly, and quarterly tasks were tracked on fragmented paper records — hard to see what was current, and unclear who owned what.",
@@ -189,6 +200,7 @@ const CONTENT = {
     },
     {
       title: "Tank Calculation & Operational Decision Support",
+      featured: true,
       tags: ["Digital Tool", "Operational Solution"],
       challenge:
         "Time-critical operational calculations involve multiple inputs and constraints, leaving room for manual error.",
@@ -231,6 +243,8 @@ const CONTENT = {
       {
         title: "ChatGPT & Its Practical Use Cases",
         provider: "Skillsoft – T&D",
+        providerUrl: "https://www.skillsoft.com",
+        credentialUrl: null, // no public credential link yet
         category: "AI & Digital Tools",
         minutes: 67, // 1 h 07 m
         completed: "July 2026",
@@ -239,6 +253,8 @@ const CONTENT = {
       {
         title: "GitHub Copilot — Learning Certificate",
         provider: TODO_VERIFY, // TODO: confirm provider name
+        providerUrl: null,
+        credentialUrl: null, // no public credential link yet
         category: "AI & Digital Tools",
         minutes: TODO_VERIFY,  // TODO: confirm duration
         completed: "24 July 2026",

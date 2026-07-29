@@ -16,6 +16,7 @@ function esc(s) {
 
 /* ---------- hero ---------- */
 function renderHero() {
+  if (!$('#hero-name')) return;
   const id = CONTENT.identity;
   $('#hero-name').textContent = id.name;
   $('#hero-headline').textContent = id.headline;
@@ -34,6 +35,7 @@ function renderHero() {
    The real figure is rendered straight away; the count-up is only an
    enhancement, so a visitor never sees a zero if it doesn't run.      */
 function renderStats() {
+  if (!$('#stats')) return;
   $('#stats').innerHTML = CONTENT.stats.map((s) => {
     const num = String(s.value);
     const digits = num.replace(/\D/g, '');
@@ -73,15 +75,31 @@ function animateCounters() {
   });
 }
 
+/* ---------- availability badge ---------- */
+function renderAvailability() {
+  const host = $('#availability');
+  if (!host) return;
+  const a = CONTENT.availability;
+  if (!a || !a.open) { host.remove(); return; }
+  host.innerHTML = `
+    <span class="status"><span class="dot" aria-hidden="true"></span>${esc(a.label)}</span>
+    <span class="status-kinds">${a.kinds.map(esc).join(' · ')}</span>`;
+}
+
 /* ---------- about ---------- */
 function renderAbout() {
+  if (!$('#about-body')) return;
   $('#about-body').innerHTML = CONTENT.about.map((p) => `<p>${p}</p>`).join('');
 }
 
-/* ---------- projects ---------- */
-function renderProjects() {
-  $('#project-list').innerHTML = CONTENT.projects.map((p, i) => `
-    <article class="project${i === 0 ? ' lead' : ''}">
+/* ---------- projects ----------
+   The homepage shows only the featured ones; projects.html shows all.
+   Nothing is deleted from the data either way.                       */
+const EXT = '<svg class="ext" viewBox="0 0 12 12" aria-hidden="true" width="11" height="11"><path d="M4.5 1.5h6v6M10.5 1.5L5 7M8 9.5v1h-7v-7h1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function projectCard(p, isLead) {
+  return `
+    <article class="project${isLead ? ' lead' : ''}">
       <div class="project-head">
         <h3>${esc(p.title)}</h3>
         ${p.tags ? `<div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
@@ -94,7 +112,61 @@ function renderProjects() {
         <div class="case-row"><dt>Practical value</dt><dd>${esc(p.value)}</dd></div>
         ${p.evidence ? `<div class="case-row"><dt>Evidence</dt><dd>${esc(p.evidence)}</dd></div>` : ''}
       </dl>
-    </article>`).join('');
+    </article>`;
+}
+
+function renderProjects() {
+  const featuredHost = $('#project-list');
+  if (featuredHost) {
+    const featured = CONTENT.projects.filter((p) => p.featured);
+    const list = featured.length ? featured : CONTENT.projects.slice(0, 3);
+    featuredHost.innerHTML = list.map((p, i) => projectCard(p, i === 0)).join('');
+  }
+  const allHost = $('#all-projects');
+  if (allHost) {
+    allHost.innerHTML = CONTENT.projects.map((p, i) => projectCard(p, i === 0)).join('');
+  }
+}
+
+/* Remember where the visitor was before opening the full projects page,
+   so returning drops them back at Featured Projects, not the top.
+   The browser also tries to restore scroll on back-navigation, so we
+   take manual control and re-apply until the position sticks.        */
+function initProjectNav() {
+  const viewAll = $('#view-all');
+  if (viewAll) {
+    viewAll.addEventListener('click', () => {
+      try { sessionStorage.setItem('backToProjects', String(Math.round(window.scrollY))); } catch (e) { /* private mode */ }
+    });
+  }
+
+  if (!$('#project-list')) return;
+  let stored = null;
+  try { stored = sessionStorage.getItem('backToProjects'); } catch (e) { /* private mode */ }
+  if (stored === null) return;
+  try { sessionStorage.removeItem('backToProjects'); } catch (e) {}
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const wanted = Number(stored);
+  const root = document.documentElement;
+  const prevBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = 'auto';
+
+  const place = () => {
+    const section = $('#projects');
+    const target = wanted > 0
+      ? wanted
+      : Math.round(section.getBoundingClientRect().top + window.scrollY - 70);
+    window.scrollTo(0, target);
+  };
+
+  place();
+  requestAnimationFrame(place);
+  window.addEventListener('load', place, { once: true });
+  setTimeout(() => {
+    place();
+    root.style.scrollBehavior = prevBehavior;
+  }, 250);
 }
 
 /* ---------- learning ---------- */
@@ -105,6 +177,7 @@ function fmtDuration(minutes) {
 }
 
 function renderLearning() {
+  if (!$('#learn-internal')) return;
   const { internal, external } = CONTENT.learning;
 
   $('#learn-internal').innerHTML = `
@@ -145,17 +218,26 @@ function renderLearning() {
 }
 
 /* ---------- career journey ---------- */
+function logoMark(e) {
+  return e.logo
+    ? `<img src="${esc(e.logo)}" alt="${esc(e.company)} logo" loading="lazy">`
+    : `<span class="logo-fallback">${esc(e.company.slice(0, 2).toUpperCase())}</span>`;
+}
+
 function renderCareer() {
+  if (!$('#career')) return;
   $('#career').innerHTML = CONTENT.experience.map((e) => `
     <article class="job">
       <div class="job-head">
         <div class="logo-box">
-          ${e.logo
-            ? `<img src="${esc(e.logo)}" alt="${esc(e.company)} logo" loading="lazy">`
-            : `<span class="logo-fallback">${esc(e.company.slice(0, 2).toUpperCase())}</span>`}
+          ${e.website
+            ? `<a href="${esc(e.website)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(e.company)} website">${logoMark(e)}</a>`
+            : logoMark(e)}
         </div>
         <div class="job-title">
-          <h3>${esc(e.company)}</h3>
+          <h3>${e.website
+            ? `<a class="company-link" href="${esc(e.website)}" target="_blank" rel="noopener noreferrer">${esc(e.company)}${EXT}</a>`
+            : esc(e.company)}</h3>
           <p class="role">${esc(e.role)}</p>
           ${e.period ? `<p class="period">${esc(e.period)}</p>` : ''}
         </div>
@@ -177,6 +259,7 @@ function renderCareer() {
 
 /* ---------- education ---------- */
 function renderEducation() {
+  if (!$('#edu-body')) return;
   const ed = CONTENT.education;
   $('#edu-body').innerHTML = `
     <div>
@@ -189,6 +272,7 @@ function renderEducation() {
 
 /* ---------- skills ---------- */
 function renderSkills() {
+  if (!$('#skills-grid')) return;
   $('#skills-grid').innerHTML = Object.entries(CONTENT.skills).map(([cat, items]) => `
     <div class="skill-col">
       <h3>${esc(cat)}</h3>
@@ -196,21 +280,34 @@ function renderSkills() {
     </div>`).join('');
 }
 
-/* ---------- certificates ---------- */
+/* ---------- certificates ----------
+   "View Credential" only appears when a real credential URL exists. */
 function renderCerts() {
-  $('#cert-grid').innerHTML = CONTENT.learning.external.map((c) => `
+  if (!$('#cert-grid')) return;
+  $('#cert-grid').innerHTML = CONTENT.learning.external.map((c) => {
+    const provider = c.provider
+      ? (c.providerUrl
+          ? `<a href="${esc(c.providerUrl)}" target="_blank" rel="noopener noreferrer">${esc(c.provider)}${EXT}</a>`
+          : esc(c.provider))
+      : todoChip('provider TBD');
+    return `
     <div class="cert">
       <div class="cert-thumb">${c.certificate ? '' : 'CERTIFICATE IMAGE — COMING SOON'}</div>
       <div class="cert-body">
         <h4>${esc(c.title)}</h4>
-        <p>${c.provider ? esc(c.provider) : todoChip('provider TBD')} · ${esc(c.category)}</p>
-        <p>${c.completed ? esc(c.completed) : ''} · ${fmtDuration(c.minutes)}</p>
+        <p class="cert-provider">via ${provider}</p>
+        <p class="cert-meta">${esc(c.category)}${c.completed ? ' · ' + esc(c.completed) : ''} · ${fmtDuration(c.minutes)}</p>
+        ${c.credentialUrl
+          ? `<a class="cert-cta" href="${esc(c.credentialUrl)}" target="_blank" rel="noopener noreferrer">View Credential${EXT}</a>`
+          : ''}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 /* ---------- recommendation ---------- */
 function renderRecommendation() {
+  if (!$('#rec-heading')) return;
   const r = CONTENT.recommendation;
   $('#rec-heading').textContent = r.heading;
   $('#rec-body').innerHTML = `
@@ -225,8 +322,14 @@ function renderRecommendation() {
 
 /* ---------- contact ---------- */
 function renderContact() {
+  const foot = $('#foot-line');
+  if (foot) {
+    foot.textContent = `© ${new Date().getFullYear()} ${CONTENT.identity.name} — ${CONTENT.footer.disclaimer}`;
+  }
+  const host = $('#contact-links');
+  if (!host) return;
   const L = CONTENT.links;
-  $('#contact-links').innerHTML = [
+  host.innerHTML = [
     L.email ? `<a class="btn solid" href="mailto:${esc(L.email)}">Email me</a>` : '',
     L.linkedin
       ? `<a class="btn ghost" href="${esc(L.linkedin)}">LinkedIn</a>`
@@ -235,7 +338,6 @@ function renderContact() {
       ? `<a class="btn ghost" href="${esc(L.cv)}" download>Download CV</a>`
       : `<span class="btn muted">CV — coming soon</span>`,
   ].join('');
-  $('#foot-line').textContent = `© ${new Date().getFullYear()} ${CONTENT.identity.name} — ${CONTENT.footer.disclaimer}`;
 }
 
 /* ---------- scroll behaviour ---------- */
@@ -273,11 +375,14 @@ function initScroll() {
 }
 
 /* ---------- boot ---------- */
-document.title = CONTENT.meta.title;
+// Only the homepage takes its title from CONTENT; other pages keep their own.
+if ($('#hero-name')) document.title = CONTENT.meta.title;
 renderHero();
+renderAvailability();
 renderStats();
 renderAbout();
 renderProjects();
+initProjectNav();
 renderLearning();
 renderCareer();
 renderEducation();
