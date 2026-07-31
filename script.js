@@ -1,11 +1,65 @@
-/* Renders the site from CONTENT (content.js). Edit content.js, not this file. */
+/* Renders the site from CONTENT (content.js) and, in Arabic,
+   overlays CONTENT_AR (content-ar.js). Edit the content files, not this one. */
 
 const $ = (sel) => document.querySelector(sel);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---------- language ---------- */
+function resolveLang() {
+  const fromUrl = new URLSearchParams(location.search).get('lang');
+  if (fromUrl === 'ar' || fromUrl === 'en') return fromUrl;
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) { /* private mode */ }
+  return saved === 'ar' ? 'ar' : 'en';
+}
+
+/* Arabic values win where present; anything missing falls back to English,
+   so a half-translated file still renders a complete page. */
+function overlay(en, ar) {
+  if (ar === undefined || ar === null) return en;
+  if (Array.isArray(en) && Array.isArray(ar)) {
+    return en.map((item, i) => overlay(item, ar[i]));
+  }
+  if (en && ar && typeof en === 'object' && typeof ar === 'object' && !Array.isArray(en)) {
+    const out = { ...en };
+    for (const k of Object.keys(ar)) out[k] = overlay(en[k], ar[k]);
+    return out;
+  }
+  return ar;
+}
+
+const LANG = resolveLang();
+const HAS_AR = typeof CONTENT_AR !== 'undefined';
+const C = (LANG === 'ar' && HAS_AR) ? overlay(CONTENT, CONTENT_AR) : CONTENT;
+
+/* `skills` is keyed by the category name itself, so merging by key would
+   leave both languages side by side. It replaces wholesale instead. */
+if (LANG === 'ar' && HAS_AR && CONTENT_AR.skills) C.skills = CONTENT_AR.skills;
+
+/* English UI labels; Arabic overrides come from CONTENT_AR.ui.labels */
+const EN_LABELS = {
+  challenge: 'Challenge', contribution: 'My contribution', solution: 'Solution',
+  toolsUsed: 'Tools used', value: 'Practical value', evidence: 'Evidence',
+  madeUpOf: 'Made up of', learningHours: 'Learning Hours',
+  internalActivities: 'Internal Learning Activities',
+  via: 'via', viewCredential: 'View Credential',
+  clickDetails: 'Click for details', clickClose: 'Click to close',
+  duration: 'Duration', certificate: 'Certificate',
+  certImageSoon: 'CERTIFICATE IMAGE — COMING SOON',
+  providerTBD: 'provider TBD', durationTBD: 'duration TBD', fileSoon: 'file coming soon',
+  emailMe: 'Email me', linkedinSoon: 'LinkedIn — coming soon', cvSoon: 'CV — coming soon',
+  downloadCv: 'Download CV', gpa: 'GPA / 4.00', photoSoon: 'PHOTO COMING SOON',
+  skipToContent: 'Skip to content',
+  noCourses: 'Courses and credentials will be listed here as they are confirmed.',
+  langSwitch: 'العربية',
+};
+const T = (LANG === 'ar' && HAS_AR && CONTENT_AR.ui && CONTENT_AR.ui.labels)
+  ? { ...EN_LABELS, ...CONTENT_AR.ui.labels }
+  : EN_LABELS;
+
 /* ---------- helpers ---------- */
-function todoChip(label = 'TBD') {
-  return `<span class="todo">${label}</span>`;
+function todoChip(label) {
+  return `<span class="todo">${esc(label)}</span>`;
 }
 
 function esc(s) {
@@ -14,10 +68,41 @@ function esc(s) {
   }[c]));
 }
 
+/* Swap the page's own text nodes (headings, nav, buttons) in Arabic. */
+function applyLanguage() {
+  const root = document.documentElement;
+  root.lang = LANG;
+  root.dir = LANG === 'ar' ? 'rtl' : 'ltr';
+
+  if (LANG === 'ar' && HAS_AR && CONTENT_AR.ui) {
+    const ui = CONTENT_AR.ui;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const value = el.dataset.i18n.split('.').reduce((o, k) => (o ? o[k] : undefined), ui);
+      if (value) el.textContent = value;
+    });
+  }
+
+  const brand = $('#brand');
+  if (brand && LANG === 'ar' && HAS_AR) brand.textContent = CONTENT_AR.identity.name;
+
+  const btn = $('#lang-toggle');
+  if (btn) {
+    btn.textContent = T.langSwitch;
+    btn.setAttribute('lang', LANG === 'ar' ? 'en' : 'ar');
+    btn.addEventListener('click', () => {
+      const next = LANG === 'ar' ? 'en' : 'ar';
+      try { localStorage.setItem('lang', next); } catch (e) { /* private mode */ }
+      const url = new URL(location.href);
+      url.searchParams.set('lang', next);
+      location.href = url.toString();
+    });
+  }
+}
+
 /* ---------- hero ---------- */
 function renderHero() {
   if (!$('#hero-name')) return;
-  const id = CONTENT.identity;
+  const id = C.identity;
   $('#hero-name').textContent = id.name;
   $('#hero-headline').textContent = id.headline;
   $('#hero-tagline').textContent = id.tagline;
@@ -27,7 +112,7 @@ function renderHero() {
     portrait.classList.add('has-photo');
     portrait.style.backgroundImage = `url("${id.photo}")`;
   } else {
-    portrait.textContent = 'PHOTO COMING SOON';
+    portrait.textContent = T.photoSoon;
   }
 }
 
@@ -36,7 +121,7 @@ function renderHero() {
    enhancement, so a visitor never sees a zero if it doesn't run.      */
 function renderStats() {
   if (!$('#stats')) return;
-  $('#stats').innerHTML = CONTENT.stats.map((s) => {
+  $('#stats').innerHTML = C.stats.map((s) => {
     const num = String(s.value);
     const digits = num.replace(/\D/g, '');
     const suffix = num.replace(/^\d+/, '');
@@ -48,7 +133,7 @@ function renderStats() {
       ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
       ${s.breakdown ? `
         <div class="breakdown">
-          <span class="breakdown-label">${esc(s.breakdownLabel || 'Made up of')}</span>
+          <span class="breakdown-label">${esc(s.breakdownLabel || T.madeUpOf)}</span>
           ${s.breakdown.map((b) => `
             <div class="breakdown-row">
               <b>${esc(String(b.value))}</b><span>${esc(b.label)}</span>
@@ -79,7 +164,7 @@ function animateCounters() {
 function renderAvailability() {
   const host = $('#availability');
   if (!host) return;
-  const a = CONTENT.availability;
+  const a = C.availability;
   if (!a || !a.open) { host.remove(); return; }
   host.innerHTML = `
     <span class="status"><span class="dot" aria-hidden="true"></span>${esc(a.label)}</span>
@@ -89,7 +174,7 @@ function renderAvailability() {
 /* ---------- about ---------- */
 function renderAbout() {
   if (!$('#about-body')) return;
-  $('#about-body').innerHTML = CONTENT.about.map((p) => `<p>${p}</p>`).join('');
+  $('#about-body').innerHTML = C.about.map((p) => `<p>${p}</p>`).join('');
 }
 
 /* ---------- projects ----------
@@ -105,12 +190,12 @@ function projectCard(p, isLead) {
         ${p.tags ? `<div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
       </div>
       <dl class="case">
-        <div class="case-row"><dt>Challenge</dt><dd>${esc(p.challenge)}</dd></div>
-        <div class="case-row"><dt>My contribution</dt><dd>${esc(p.contribution)}</dd></div>
-        <div class="case-row"><dt>Solution</dt><dd>${esc(p.solution)}</dd></div>
-        <div class="case-row"><dt>Tools used</dt><dd class="tools">${p.tools.map((t) => `<span class="chip">${esc(t)}</span>`).join('')}</dd></div>
-        <div class="case-row"><dt>Practical value</dt><dd>${esc(p.value)}</dd></div>
-        ${p.evidence ? `<div class="case-row"><dt>Evidence</dt><dd>${esc(p.evidence)}</dd></div>` : ''}
+        <div class="case-row"><dt>${esc(T.challenge)}</dt><dd>${esc(p.challenge)}</dd></div>
+        <div class="case-row"><dt>${esc(T.contribution)}</dt><dd>${esc(p.contribution)}</dd></div>
+        <div class="case-row"><dt>${esc(T.solution)}</dt><dd>${esc(p.solution)}</dd></div>
+        <div class="case-row"><dt>${esc(T.toolsUsed)}</dt><dd class="tools">${p.tools.map((t) => `<span class="chip">${esc(t)}</span>`).join('')}</dd></div>
+        <div class="case-row"><dt>${esc(T.value)}</dt><dd>${esc(p.value)}</dd></div>
+        ${p.evidence ? `<div class="case-row"><dt>${esc(T.evidence)}</dt><dd>${esc(p.evidence)}</dd></div>` : ''}
       </dl>
     </article>`;
 }
@@ -118,13 +203,13 @@ function projectCard(p, isLead) {
 function renderProjects() {
   const featuredHost = $('#project-list');
   if (featuredHost) {
-    const featured = CONTENT.projects.filter((p) => p.featured);
-    const list = featured.length ? featured : CONTENT.projects.slice(0, 3);
+    const featured = C.projects.filter((p) => p.featured);
+    const list = featured.length ? featured : C.projects.slice(0, 3);
     featuredHost.innerHTML = list.map((p, i) => projectCard(p, i === 0)).join('');
   }
   const allHost = $('#all-projects');
   if (allHost) {
-    allHost.innerHTML = CONTENT.projects.map((p, i) => projectCard(p, i === 0)).join('');
+    allHost.innerHTML = C.projects.map((p, i) => projectCard(p, i === 0)).join('');
   }
 }
 
@@ -135,10 +220,13 @@ function renderProjects() {
 function initProjectNav() {
   const viewAll = $('#view-all');
   if (viewAll) {
+    if (LANG === 'ar') viewAll.href = 'projects.html?lang=ar';
     viewAll.addEventListener('click', () => {
       try { sessionStorage.setItem('backToProjects', String(Math.round(window.scrollY))); } catch (e) { /* private mode */ }
     });
   }
+  const back = $('.back-link');
+  if (back && LANG === 'ar') back.href = 'index.html?lang=ar#projects';
 
   if (!$('#project-list')) return;
   let stored = null;
@@ -171,22 +259,22 @@ function initProjectNav() {
 
 /* ---------- learning ---------- */
 function fmtDuration(minutes) {
-  if (minutes == null) return todoChip('duration TBD');
+  if (minutes == null) return todoChip(T.durationTBD);
   const h = Math.floor(minutes / 60), m = minutes % 60;
   return h ? `${h} h ${m ? m + ' m' : ''}`.trim() : `${m} m`;
 }
 
 function renderLearning() {
   if (!$('#learn-internal')) return;
-  const { internal, external } = CONTENT.learning;
+  const { internal, external } = C.learning;
 
   $('#learn-internal').innerHTML = `
     <div class="learn-figures">
-      <div class="learn-stat"><div class="num">${internal.hours}</div><div class="lbl">Learning Hours</div></div>
+      <div class="learn-stat"><div class="num">${internal.hours}</div><div class="lbl">${esc(T.learningHours)}</div></div>
       <div class="learn-stat">
-        <div class="num">${internal.activities}</div><div class="lbl">Internal Learning Activities</div>
+        <div class="num">${internal.activities}</div><div class="lbl">${esc(T.internalActivities)}</div>
         <div class="breakdown">
-          <span class="breakdown-label">Made up of</span>
+          <span class="breakdown-label">${esc(T.madeUpOf)}</span>
           ${internal.breakdown.map((b) => `
             <div class="breakdown-row"><b>${b.value}</b><span>${esc(b.label)}</span></div>`).join('')}
         </div>
@@ -199,20 +287,20 @@ function renderLearning() {
       <button class="course" aria-expanded="false" data-i="${i}">
         <span class="cat">${esc(c.category)}</span>
         <h4>${esc(c.title)}</h4>
-        <p class="meta">${c.provider ? esc(c.provider) : todoChip('provider TBD')} · ${c.completed ? esc(c.completed) : todoChip()}</p>
+        <p class="meta">${c.provider ? esc(c.provider) : todoChip(T.providerTBD)} · ${c.completed ? esc(c.completed) : todoChip(T.providerTBD)}</p>
         <div class="details">
-          <p>Duration: ${fmtDuration(c.minutes)}</p>
-          <p>Certificate: ${c.certificate ? `<a href="${esc(c.certificate)}">view</a>` : todoChip('file coming soon')}</p>
+          <p>${esc(T.duration)}: ${fmtDuration(c.minutes)}</p>
+          <p>${esc(T.certificate)}: ${c.certificate ? `<a href="${esc(c.certificate)}">${esc(T.viewCredential)}</a>` : todoChip(T.fileSoon)}</p>
         </div>
-        <p class="hint">Click for details</p>
+        <p class="hint">${esc(T.clickDetails)}</p>
       </button>`).join('')
-    : `<div class="empty">Courses and credentials will be listed here as they are confirmed.</div>`;
+    : `<div class="empty">${esc(T.noCourses)}</div>`;
 
   document.querySelectorAll('#learn-external .course').forEach((btn) => {
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
-      btn.querySelector('.hint').textContent = open ? 'Click for details' : 'Click to close';
+      btn.querySelector('.hint').textContent = open ? T.clickDetails : T.clickClose;
     });
   });
 }
@@ -226,12 +314,12 @@ function logoMark(e) {
 
 function renderCareer() {
   if (!$('#career')) return;
-  $('#career').innerHTML = CONTENT.experience.map((e) => `
+  $('#career').innerHTML = C.experience.map((e) => `
     <article class="job">
       <div class="job-head">
         <div class="logo-box">
           ${e.website
-            ? `<a href="${esc(e.website)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(e.company)} website">${logoMark(e)}</a>`
+            ? `<a href="${esc(e.website)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(e.company)}">${logoMark(e)}</a>`
             : logoMark(e)}
         </div>
         <div class="job-title">
@@ -260,20 +348,20 @@ function renderCareer() {
 /* ---------- education ---------- */
 function renderEducation() {
   if (!$('#edu-body')) return;
-  const ed = CONTENT.education;
+  const ed = C.education;
   $('#edu-body').innerHTML = `
     <div>
       <h3>${esc(ed.degree)}</h3>
       <p class="school">${esc(ed.school)} — ${esc(ed.status)}</p>
       <p class="school">${esc(ed.note)}</p>
     </div>
-    <div class="gpa">${esc(ed.gpa.split(' ')[0])}<small>GPA / 4.00</small></div>`;
+    <div class="gpa">${esc(ed.gpa.split(' ')[0])}<small>${esc(T.gpa)}</small></div>`;
 }
 
 /* ---------- skills ---------- */
 function renderSkills() {
   if (!$('#skills-grid')) return;
-  $('#skills-grid').innerHTML = Object.entries(CONTENT.skills).map(([cat, items]) => `
+  $('#skills-grid').innerHTML = Object.entries(C.skills).map(([cat, items]) => `
     <div class="skill-col">
       <h3>${esc(cat)}</h3>
       <ul>${items.map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>
@@ -284,21 +372,21 @@ function renderSkills() {
    "View Credential" only appears when a real credential URL exists. */
 function renderCerts() {
   if (!$('#cert-grid')) return;
-  $('#cert-grid').innerHTML = CONTENT.learning.external.map((c) => {
+  $('#cert-grid').innerHTML = C.learning.external.map((c) => {
     const provider = c.provider
       ? (c.providerUrl
           ? `<a href="${esc(c.providerUrl)}" target="_blank" rel="noopener noreferrer">${esc(c.provider)}${EXT}</a>`
           : esc(c.provider))
-      : todoChip('provider TBD');
+      : todoChip(T.providerTBD);
     return `
     <div class="cert">
-      <div class="cert-thumb">${c.certificate ? '' : 'CERTIFICATE IMAGE — COMING SOON'}</div>
+      <div class="cert-thumb">${c.certificate ? '' : esc(T.certImageSoon)}</div>
       <div class="cert-body">
         <h4>${esc(c.title)}</h4>
-        <p class="cert-provider">via ${provider}</p>
+        <p class="cert-provider">${esc(T.via)} ${provider}</p>
         <p class="cert-meta">${esc(c.category)}${c.completed ? ' · ' + esc(c.completed) : ''} · ${fmtDuration(c.minutes)}</p>
         ${c.credentialUrl
-          ? `<a class="cert-cta" href="${esc(c.credentialUrl)}" target="_blank" rel="noopener noreferrer">View Credential${EXT}</a>`
+          ? `<a class="cert-cta" href="${esc(c.credentialUrl)}" target="_blank" rel="noopener noreferrer">${esc(T.viewCredential)}${EXT}</a>`
           : ''}
       </div>
     </div>`;
@@ -308,7 +396,7 @@ function renderCerts() {
 /* ---------- recommendation ---------- */
 function renderRecommendation() {
   if (!$('#rec-heading')) return;
-  const r = CONTENT.recommendation;
+  const r = C.recommendation;
   $('#rec-heading').textContent = r.heading;
   $('#rec-body').innerHTML = `
     <div class="rec-card">
@@ -324,19 +412,19 @@ function renderRecommendation() {
 function renderContact() {
   const foot = $('#foot-line');
   if (foot) {
-    foot.textContent = `© ${new Date().getFullYear()} ${CONTENT.identity.name} — ${CONTENT.footer.disclaimer}`;
+    foot.textContent = `© ${new Date().getFullYear()} ${C.identity.name} — ${C.footer.disclaimer}`;
   }
   const host = $('#contact-links');
   if (!host) return;
-  const L = CONTENT.links;
+  const L = C.links;
   host.innerHTML = [
-    L.email ? `<a class="btn solid" href="mailto:${esc(L.email)}">Email me</a>` : '',
+    L.email ? `<a class="btn solid" href="mailto:${esc(L.email)}">${esc(T.emailMe)}</a>` : '',
     L.linkedin
-      ? `<a class="btn ghost" href="${esc(L.linkedin)}">LinkedIn</a>`
-      : `<span class="btn muted">LinkedIn — coming soon</span>`,
+      ? `<a class="btn ghost" href="${esc(L.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>`
+      : `<span class="btn muted">${esc(T.linkedinSoon)}</span>`,
     L.cv
-      ? `<a class="btn ghost" href="${esc(L.cv)}" download>Download CV</a>`
-      : `<span class="btn muted">CV — coming soon</span>`,
+      ? `<a class="btn ghost" href="${esc(L.cv)}" download>${esc(T.downloadCv)}</a>`
+      : `<span class="btn muted">${esc(T.cvSoon)}</span>`,
   ].join('');
 }
 
@@ -350,7 +438,7 @@ function initScroll() {
     progress.style.width = max > 0 ? `${(window.scrollY / max) * 100}%` : '0';
   }, { passive: true });
 
-  const navLinks = [...document.querySelectorAll('.top-links a[href^="#"]')];
+  const navLinks = [...document.querySelectorAll('.top-links a[href*="#"]')];
   const sectionObserver = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (!e.isIntersecting) continue;
@@ -358,6 +446,7 @@ function initScroll() {
     }
   }, { rootMargin: '-40% 0px -55% 0px' });
   navLinks.forEach((a) => {
+    if (!a.hash) return;
     const sec = document.querySelector(a.hash);
     if (sec) sectionObserver.observe(sec);
   });
@@ -374,9 +463,24 @@ function initScroll() {
   document.querySelectorAll('.reveal, .stat, #stats').forEach((el) => observer.observe(el));
 }
 
+/* Keep the chosen language on internal links so it survives navigation. */
+function keepLangOnLinks() {
+  if (LANG !== 'ar') return;
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach((a) => {
+    const url = new URL(a.getAttribute('href'), location.href);
+    if (url.origin !== location.origin) return;
+    url.searchParams.set('lang', 'ar');
+    a.setAttribute('href', url.pathname.split('/').pop() + url.search + url.hash);
+  });
+}
+
 /* ---------- boot ---------- */
-// Only the homepage takes its title from CONTENT; other pages keep their own.
-if ($('#hero-name')) document.title = CONTENT.meta.title;
+applyLanguage();
+if ($('#hero-name')) {
+  document.title = C.meta.title;
+} else if ($('#all-projects') && LANG === 'ar' && HAS_AR && CONTENT_AR.ui && CONTENT_AR.ui.pageTitles) {
+  document.title = CONTENT_AR.ui.pageTitles.projects;
+}
 renderHero();
 renderAvailability();
 renderStats();
@@ -390,4 +494,5 @@ renderSkills();
 renderCerts();
 renderRecommendation();
 renderContact();
+keepLangOnLinks();
 initScroll();

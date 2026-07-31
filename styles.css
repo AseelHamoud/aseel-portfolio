@@ -44,7 +44,7 @@ a:focus-visible, button:focus-visible {
 }
 
 .skip-link {
-  position: absolute; top: -50px; left: 24px; z-index: 30;
+  position: absolute; top: -50px; inset-inline-start: 24px; z-index: 30;
   background: var(--ink); color: #fff; padding: 9px 18px;
   font-size: 14px; border-radius: 0 0 8px 8px; transition: top .2s;
 }
@@ -52,7 +52,7 @@ a:focus-visible, button:focus-visible {
 
 /* reading progress — 2px, quiet */
 .progress {
-  position: fixed; top: 0; left: 0; z-index: 40;
+  position: fixed; top: 0; inset-inline-start: 0; z-index: 40;
   height: 2px; width: 0;
   background: var(--brass);
 }
@@ -126,7 +126,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   font-size: 14px; font-weight: 600; color: var(--ink);
   background: rgba(45, 138, 92, .08);
   border: 1px solid rgba(45, 138, 92, .28);
-  border-radius: 999px; padding: 7px 15px 7px 13px;
+  border-radius: 999px; padding-block: 7px;
+  padding-inline: 13px 15px;
 }
 .status .dot {
   width: 8px; height: 8px; border-radius: 50%;
@@ -313,28 +314,29 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   background: var(--brass-soft); border-radius: var(--r-sm);
   padding: 8px 12px;
 }
+.job-title { min-width: 0; }
 .job-title h3 { font-family: var(--disp); font-weight: 700; font-size: 19px; }
 .job-title .role { font-size: 14.5px; color: var(--brass); font-weight: 500; margin-top: 2px; }
 .job-title .period { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
 
-.job-points { list-style: none; margin-top: 16px; padding-left: 152px; }
-.job-points li { color: var(--muted); font-size: 15px; padding-left: 18px; position: relative; }
+.job-points { list-style: none; margin-top: 16px; padding-inline-start: 152px; }
+.job-points li { color: var(--muted); font-size: 15px; padding-inline-start: 18px; position: relative; }
 .job-points li + li { margin-top: 5px; }
-.job-points li::before { content: "—"; position: absolute; left: 0; color: var(--brass); }
+.job-points li::before { content: "—"; position: absolute; inset-inline-start: 0; color: var(--brass); }
 
 /* internal stages — one connected journey inside a single employer */
 .stages {
-  list-style: none; margin-top: 22px; margin-left: 152px;
-  position: relative; padding-left: 26px;
+  list-style: none; margin-top: 22px; margin-inline-start: 152px;
+  position: relative; padding-inline-start: 26px;
 }
 .stages::before {
-  content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px;
+  content: ""; position: absolute; inset-inline-start: 5px; top: 10px; bottom: 10px;
   width: 2px; background: var(--line); border-radius: 2px;
 }
 .stage { position: relative; padding-bottom: 22px; }
 .stage:last-child { padding-bottom: 0; }
 .stage::before {
-  content: ""; position: absolute; left: -26px; top: 7px;
+  content: ""; position: absolute; inset-inline-start: -26px; top: 7px;
   width: 12px; height: 12px; border-radius: 50%;
   background: var(--card); border: 2.5px solid var(--brass);
 }
@@ -346,8 +348,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 .stage p { color: var(--muted); font-size: 14.5px; margin-top: 5px; max-width: 62ch; }
 
-.stage.key::before { width: 15px; height: 15px; left: -27.5px; background: var(--brass); }
-.stage.key { background: #fdf9f1; border-radius: var(--r-sm); padding: 14px 18px 16px; margin-left: -18px; margin-bottom: 22px; }
+.stage.key::before { width: 15px; height: 15px; inset-inline-start: -27.5px; background: var(--brass); }
+.stage.key { background: #fdf9f1; border-radius: var(--r-sm); padding: 14px 18px 16px; margin-inline-start: -18px; margin-bottom: 22px; }
 .stage.key::before { top: 21px; }
 .stage.key h4 { font-size: 16.5px; }
 .stage.key p { color: var(--ink); }
@@ -358,7 +360,7 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .edu .school { color: var(--muted); margin-top: 3px; }
 .edu .gpa {
   font-family: var(--disp); font-weight: 800; font-size: 30px; color: var(--brass);
-  text-align: right;
+  text-align: end;
 }
 .edu .gpa small { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); font-weight: 400; margin-top: 2px; }
 
@@ -389,14 +391,14 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 
 /* ---------- recommendation ---------- */
 .rec-card {
-  border: 1px solid var(--line); border-left: 3px solid var(--brass);
+  border: 1px solid var(--line); border-inline-start: 3px solid var(--brass);
   border-radius: var(--r-md); padding: 26px 30px; background: #fdf9f1;
 }
 .rec-by { font-family: var(--disp); font-weight: 700; font-size: 16px; }
 .rec-title { font-size: 14px; color: var(--brass); margin-top: 2px; }
 
 /* ---------- external links ---------- */
-.ext { margin-left: 5px; vertical-align: -1px; opacity: .65; flex: none; }
+.ext { margin-inline-start: 5px; vertical-align: -1px; opacity: .65; flex: none; }
 .company-link {
   color: inherit; text-decoration: none;
   display: inline-flex; align-items: center;
@@ -466,18 +468,82 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 @media (max-width: 900px) {
   .learn-grid, .cert-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
-  .job-points { padding-left: 0; }
-  .stages { margin-left: 0; }
+  .job-points { padding-inline-start: 0; }
+  .stages { margin-inline-start: 0; }
 }
 @media (max-width: 640px) {
   .top-links a:not(.top-cta) { display: none; }
   .hero { flex-direction: column-reverse; align-items: flex-start; }
   .stats, .learn-figures, .skills-grid { grid-template-columns: 1fr; }
   .case-row { grid-template-columns: 1fr; gap: 3px; }
-  .edu .gpa { text-align: left; }
+  .edu .gpa { text-align: start; }
   .job { padding: 22px 20px; }
   .job-head { gap: 14px; }
   .logo-box { width: 84px; height: 42px; }
   .logo-box img { max-width: 84px; max-height: 38px; }
-  .stage.key { margin-left: -12px; padding: 12px 14px 14px; }
+  .stage.key { margin-inline-start: -12px; padding: 12px 14px 14px; }
 }
+/* very narrow screens (small foldables): stack the logo above the title */
+@media (max-width: 430px) {
+  .job-head { flex-wrap: wrap; gap: 10px; }
+  .logo-box { width: 76px; height: 36px; }
+  .logo-box img { max-width: 76px; max-height: 34px; }
+}
+
+
+/* ============================================================
+   Arabic (RTL)
+   ============================================================ */
+:root[dir="rtl"] {
+  --sans: "IBM Plex Sans Arabic", "Inter", -apple-system, sans-serif;
+  --disp: "IBM Plex Sans Arabic", "Archivo", sans-serif;
+}
+:root[dir="rtl"] body { line-height: 1.85; }
+:root[dir="rtl"] h1 { letter-spacing: 0; line-height: 1.25; }
+:root[dir="rtl"] h2,
+:root[dir="rtl"] h3,
+:root[dir="rtl"] h4 { letter-spacing: 0; }
+
+/* Wide tracking is borrowed from the mono face and breaks Arabic script. */
+:root[dir="rtl"] .tagline,
+:root[dir="rtl"] .sub-head,
+:root[dir="rtl"] .breakdown-label,
+:root[dir="rtl"] .case-row dt,
+:root[dir="rtl"] .tag,
+:root[dir="rtl"] .course .cat,
+:root[dir="rtl"] .stage-sub,
+:root[dir="rtl"] .skill-col h3,
+:root[dir="rtl"] .rec-label,
+:root[dir="rtl"] .rec-relation,
+:root[dir="rtl"] .cert-thumb,
+:root[dir="rtl"] .foot p,
+:root[dir="rtl"] .todo,
+:root[dir="rtl"] .status-kinds,
+:root[dir="rtl"] .job-title .period {
+  font-family: var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Latin fragments (tool names, figures) stay left-to-right inside Arabic. */
+:root[dir="rtl"] .chip,
+:root[dir="rtl"] .edu .gpa,
+:root[dir="rtl"] .stat .num,
+:root[dir="rtl"] .learn-stat .num,
+:root[dir="rtl"] .breakdown-row b { direction: ltr; unicode-bidi: isolate; }
+:root[dir="rtl"] .stat .num,
+:root[dir="rtl"] .learn-stat .num,
+:root[dir="rtl"] .edu .gpa { text-align: start; }
+
+/* The external-link glyph points the other way in RTL. */
+:root[dir="rtl"] .ext { transform: scaleX(-1); }
+
+/* ---------- language toggle ---------- */
+.lang-toggle {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--muted); background: none;
+  border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 6px 14px; cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.lang-toggle:hover { border-color: var(--brass); color: var(--brass); }

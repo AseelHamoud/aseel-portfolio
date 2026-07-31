@@ -25,23 +25,25 @@
 <link rel="preload" href="assets/fonts/inter-6.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo-1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/fonts/fonts-ar.css">
+<link rel="stylesheet" href="styles.css?v=18">
 </head>
 <body>
 
-<a class="skip-link" href="#about">Skip to content</a>
+<a class="skip-link" href="#about" data-i18n="labels.skipToContent">Skip to content</a>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 
 <nav class="top" id="topnav" aria-label="Main">
-  <a class="brand" href="#top">Aseel Hamoud</a>
+  <a class="brand" href="#top" id="brand">Aseel Hamoud</a>
   <div class="top-links">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#learning">Learning</a>
-    <a href="#experience">Experience</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact" class="top-cta">Contact</a>
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#projects" data-i18n="nav.projects">Projects</a>
+    <a href="#learning" data-i18n="nav.learning">Learning</a>
+    <a href="#experience" data-i18n="nav.experience">Experience</a>
+    <a href="#skills" data-i18n="nav.skills">Skills</a>
+    <a href="#contact" class="top-cta" data-i18n="nav.contact">Contact</a>
+    <button class="lang-toggle" id="lang-toggle" type="button">العربية</button>
   </div>
 </nav>
 
@@ -56,9 +58,9 @@
       <p class="intro" id="hero-intro"></p>
       <div class="availability" id="availability"></div>
       <div class="btns">
-        <a class="btn solid" href="#projects">View my work</a>
-        <a class="btn ghost" href="#about">About me</a>
-        <a class="btn ghost" href="#contact">Contact</a>
+        <a class="btn solid" href="#projects" data-i18n="heroButtons.work">View my work</a>
+        <a class="btn ghost" href="#about" data-i18n="heroButtons.about">About me</a>
+        <a class="btn ghost" href="#contact" data-i18n="heroButtons.contact">Contact</a>
       </div>
     </div>
     <div class="portrait" id="hero-portrait" role="img" aria-label="Portrait of Aseel Hamoud"></div>
@@ -69,50 +71,50 @@
 
   <!-- About -->
   <section class="panel reveal" id="about">
-    <h2>About me</h2>
+    <h2 data-i18n="sections.about">About me</h2>
     <div class="about-body" id="about-body"></div>
   </section>
 
   <!-- Projects -->
   <section class="panel reveal" id="projects">
-    <h2>Featured Projects</h2>
-    <p class="section-sub">Practical ideas, problem-solving, and digital tools built around real operational needs.</p>
+    <h2 data-i18n="sections.featuredProjects">Featured Projects</h2>
+    <p class="section-sub" data-i18n="sections.projectsSub">Practical ideas, problem-solving, and digital tools built around real operational needs.</p>
     <div class="project-list" id="project-list"></div>
-    <a class="btn ghost view-all" id="view-all" href="projects.html">View All Projects</a>
+    <a class="btn ghost view-all" id="view-all" href="projects.html" data-i18n="sections.viewAll">View All Projects</a>
   </section>
 
   <!-- Learning -->
   <section class="panel reveal" id="learning">
-    <h2>Learning &amp; Credentials</h2>
-    <h3 class="sub-head">Internal company learning</h3>
+    <h2 data-i18n="sections.learning">Learning &amp; Credentials</h2>
+    <h3 class="sub-head" data-i18n="sections.internalLearning">Internal company learning</h3>
     <div class="learn-internal" id="learn-internal"></div>
-    <h3 class="sub-head">Courses &amp; credentials</h3>
+    <h3 class="sub-head" data-i18n="sections.coursesCreds">Courses &amp; credentials</h3>
     <div class="learn-grid" id="learn-external"></div>
   </section>
 
   <!-- Experience -->
   <section class="panel reveal" id="experience">
-    <h2>Experience</h2>
-    <p class="section-sub">A career journey that runs from the sales floor to the control room — shown most recent first.</p>
+    <h2 data-i18n="sections.experience">Experience</h2>
+    <p class="section-sub" data-i18n="sections.experienceSub">A career journey that runs from the sales floor to the control room — shown most recent first.</p>
     <div class="career" id="career"></div>
   </section>
 
   <!-- Education -->
   <section class="panel reveal" id="education">
-    <h2>Education</h2>
+    <h2 data-i18n="sections.education">Education</h2>
     <div class="edu" id="edu-body"></div>
   </section>
 
   <!-- Skills -->
   <section class="panel reveal" id="skills">
-    <h2>Skills &amp; tools</h2>
-    <p class="section-sub">Presented honestly — no invented proficiency scores.</p>
+    <h2 data-i18n="sections.skills">Skills &amp; tools</h2>
+    <p class="section-sub" data-i18n="sections.skillsSub">Presented honestly — no invented proficiency scores.</p>
     <div class="skills-grid" id="skills-grid"></div>
   </section>
 
   <!-- Certificates -->
   <section class="panel reveal" id="certificates">
-    <h2>Certificates</h2>
+    <h2 data-i18n="sections.certificates">Certificates</h2>
     <div class="cert-grid" id="cert-grid"></div>
   </section>
 
@@ -124,8 +126,8 @@
 
   <!-- Contact -->
   <section class="panel contact reveal" id="contact">
-    <h2>Let’s talk</h2>
-    <p class="section-sub">Open to conversations about operations, business, process improvement, and practical tools.</p>
+    <h2 data-i18n="sections.contact">Let’s talk</h2>
+    <p class="section-sub" data-i18n="sections.contactSub">Open to conversations about operations, business, process improvement, and practical tools.</p>
     <div class="contact-links" id="contact-links"></div>
   </section>
 
@@ -135,8 +137,9 @@
 
 </main>
 
-<script src="content.js?v=13"></script>
-<script src="script.js?v=13"></script>
+<script src="content.js?v=18"></script>
+<script src="content-ar.js?v=18"></script>
+<script src="script.js?v=18"></script>
 <noscript><p style="padding:2rem;font-family:sans-serif">This site needs JavaScript to display its content. — Aseel Hamoud, Operations Professional. Contact: bnhamoud22@gmail.com</p></noscript>
 </body>
 </html>

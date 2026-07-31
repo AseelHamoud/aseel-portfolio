@@ -12,31 +12,33 @@
 <link rel="preload" href="assets/fonts/inter-6.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo-1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/fonts/fonts-ar.css">
+<link rel="stylesheet" href="styles.css?v=18">
 </head>
 <body>
 
-<a class="skip-link" href="#all">Skip to content</a>
+<a class="skip-link" href="#all" data-i18n="labels.skipToContent">Skip to content</a>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 
 <nav class="top" id="topnav" aria-label="Main">
-  <a class="brand" href="index.html">Aseel Hamoud</a>
+  <a class="brand" href="index.html" id="brand">Aseel Hamoud</a>
   <div class="top-links">
-    <a href="index.html#about">About</a>
-    <a href="index.html#projects">Projects</a>
-    <a href="index.html#learning">Learning</a>
-    <a href="index.html#experience">Experience</a>
-    <a href="index.html#contact" class="top-cta">Contact</a>
+    <a href="index.html#about" data-i18n="nav.about">About</a>
+    <a href="index.html#projects" data-i18n="nav.projects">Projects</a>
+    <a href="index.html#learning" data-i18n="nav.learning">Learning</a>
+    <a href="index.html#experience" data-i18n="nav.experience">Experience</a>
+    <a href="index.html#contact" class="top-cta" data-i18n="nav.contact">Contact</a>
+    <button class="lang-toggle" id="lang-toggle" type="button">العربية</button>
   </div>
 </nav>
 
 <main id="top">
 
   <section class="panel" id="all">
-    <a class="back-link" href="index.html#projects">← Back to portfolio</a>
-    <h2>All Projects &amp; Practical Solutions</h2>
-    <p class="section-sub">Every project on record — practical ideas, problem-solving, and digital tools built around real operational needs.</p>
+    <a class="back-link" href="index.html#projects" data-i18n="sections.backToPortfolio">← Back to portfolio</a>
+    <h2 data-i18n="sections.allProjects">All Projects &amp; Practical Solutions</h2>
+    <p class="section-sub" data-i18n="sections.allProjectsSub">Every project on record — practical ideas, problem-solving, and digital tools built around real operational needs.</p>
     <div class="project-list" id="all-projects"></div>
   </section>
 
@@ -46,8 +48,9 @@
 
 </main>
 
-<script src="content.js?v=13"></script>
-<script src="script.js?v=13"></script>
+<script src="content.js?v=18"></script>
+<script src="content-ar.js?v=18"></script>
+<script src="script.js?v=18"></script>
 <noscript><p style="padding:2rem;font-family:sans-serif">This page needs JavaScript to display its content. — Aseel Hamoud. Contact: bnhamoud22@gmail.com</p></noscript>
 </body>
 </html>
