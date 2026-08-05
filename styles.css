@@ -160,15 +160,44 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .btn.ghost { border: 1.5px solid var(--line); color: var(--ink); }
 .btn.ghost:hover { border-color: var(--brass); color: var(--brass); }
 
+/* The photo breaks the top of the circle for a little depth. The mask is
+   the circle plus a band above it, so only the head spills — the shoulders
+   still stop at the ring. Works because the photo's backdrop is white,
+   like the card behind it. */
 .portrait {
+  --spill: 15%;
   width: clamp(150px, 18vw, 210px); height: clamp(150px, 18vw, 210px);
   border-radius: 50%; flex: none;
-  background: var(--brass-soft) center/cover no-repeat;
+  background: var(--brass-soft);
   border: 2px dashed rgba(184, 132, 46, .55);
   display: grid; place-items: center; text-align: center;
   font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--brass);
+  position: relative;
 }
 .portrait.has-photo { border-style: solid; }
+.portrait img {
+  /* The photo is scaled past the ring and anchored to its bottom, so the
+     headdress rises above the circle. Mask = the ring's circle, plus a band
+     covering only what sits above it. Percentages are derived from the 118%
+     scale, so the circular part lines up exactly with the ring. */
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 112%; height: auto;
+  display: block;
+  /* The source photo is cropped tight at the top, so the spill fades out
+     rather than ending on a hard horizontal cut. */
+  --ring: radial-gradient(ellipse 44.6% 44.6% at 50% 55.4%, #000 99%, transparent 100%);
+  --spill: linear-gradient(to bottom, transparent 0%, #000 55%);
+  -webkit-mask-image: var(--ring), var(--spill);
+  -webkit-mask-size: 100% 100%, 100% 10.7%;
+  -webkit-mask-position: 0 0, 0 0;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-image: var(--ring), var(--spill);
+  mask-size: 100% 100%, 100% 10.7%;
+  mask-position: 0 0, 0 0;
+  mask-repeat: no-repeat, no-repeat;
+  mask-composite: add;
+}
 
 /* ---------- statistics ---------- */
 .stats {

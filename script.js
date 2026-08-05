@@ -110,7 +110,7 @@ function renderHero() {
   const portrait = $('#hero-portrait');
   if (id.photo) {
     portrait.classList.add('has-photo');
-    portrait.style.backgroundImage = `url("${id.photo}")`;
+    portrait.innerHTML = `<img src="${esc(id.photo)}" alt="">`;
   } else {
     portrait.textContent = T.photoSoon;
   }
