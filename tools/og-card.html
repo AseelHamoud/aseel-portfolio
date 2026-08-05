@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- Source for assets/og-card.png (the social share image).
+     Regenerate after changing the photo or headline:
+       chrome --headless=new --window-size=1200,630 \
+         --screenshot=assets/og-card.png tools/og-card.html
+     Run it from the project root with a local server so the paths resolve. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    background: #faf7f1;
+    font-family: "Inter", sans-serif; color: #1e2c33;
+    display: flex; align-items: center;
+    position: relative;
+  }
+  .bar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: #b8842e; }
+  .wrap { padding: 0 96px; display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 64px; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .2em;
+    text-transform: uppercase; color: #b8842e; margin-bottom: 26px;
+  }
+  h1 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 86px; letter-spacing: -.015em; line-height: 1.02; margin-bottom: 22px; }
+  .line { font-size: 29px; font-weight: 500; color: #64717a; max-width: 20ch; line-height: 1.45; }
+  .line b { color: #1e2c33; font-weight: 600; }
+  .url {
+    position: absolute; bottom: 44px; left: 96px;
+    font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .06em; color: #b8842e;
+  }
+  .photo {
+    width: 300px; height: 300px; border-radius: 50%; flex: none;
+    background: #ece6d8 center/cover no-repeat;
+    border: 6px solid #b8842e;
+  }
+</style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="wrap">
+    <div>
+      <p class="kicker">Yanbu, Saudi Arabia</p>
+      <h1>Aseel Hamoud</h1>
+      <p class="line"><b>Operations · Business · Process Improvement</b> — practical tools, real improvements, honest numbers.</p>
+    </div>
+    <div class="photo" style="background-image:url('../assets/aseel.jpg')"></div>
+  </div>
+  <p class="url">aseelhamoud.github.io/aseel-portfolio</p>
+</body>
+</html>

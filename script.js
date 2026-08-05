@@ -49,7 +49,7 @@ const EN_LABELS = {
   providerTBD: 'provider TBD', durationTBD: 'duration TBD', fileSoon: 'file coming soon',
   emailMe: 'Email me', linkedinSoon: 'LinkedIn — coming soon', cvSoon: 'CV — coming soon',
   downloadCv: 'Download CV', gpa: 'GPA / 4.00', photoSoon: 'PHOTO COMING SOON',
-  skipToContent: 'Skip to content',
+  skipToContent: 'Skip to content', portraitAlt: 'Portrait of {name}',
   noCourses: 'Courses and credentials will be listed here as they are confirmed.',
   langSwitch: 'العربية',
 };
@@ -108,6 +108,7 @@ function renderHero() {
   $('#hero-tagline').textContent = id.tagline;
   $('#hero-intro').textContent = id.intro;
   const portrait = $('#hero-portrait');
+  portrait.setAttribute('aria-label', T.portraitAlt.replace('{name}', id.name));
   if (id.photo) {
     portrait.classList.add('has-photo');
     portrait.style.backgroundImage = `url("${id.photo}")`;

@@ -249,6 +249,7 @@ const CONTENT_AR = {
       gpa: "المعدل / 4.00",
       photoSoon: "الصورة قريبًا",
       skipToContent: "تخطَّ إلى المحتوى",
+      portraitAlt: "صورة {name}",
       noCourses: "ستُدرج الدورات والشهادات هنا فور توثيقها.",
       langSwitch: "English",
     },
