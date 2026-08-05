@@ -24,7 +24,7 @@ const CONTENT = {
     tagline: "Operations experience. Business mindset. Broader ambition.",
     intro:
       "I combine hands-on operational experience with business thinking and digital problem-solving. I focus on identifying practical problems, improving workflows, building useful tools, and continuously developing my skills across operations, business, safety, and technology, while strengthening my leadership, communication, and personal effectiveness.",
-    photo: "assets/aseel.jpg", // temporary photo — replace with a professional portrait later
+    photo: "assets/aseel.jpg?v=2", // professional portrait
   },
 
   /* ---- Availability ---- set `open: false` to hide the badge ---- */
