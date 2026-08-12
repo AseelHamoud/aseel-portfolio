@@ -36,7 +36,7 @@ const CONTENT = {
 
   links: {
     email: "bnhamoud22@gmail.com",
-    linkedin: TODO_VERIFY, // TODO: add LinkedIn URL — button stays visible either way
+    linkedin: "https://www.linkedin.com/in/aseelhamoud/",
     cv: TODO_VERIFY,       // TODO: add CV file path — button stays visible either way
   },
 
