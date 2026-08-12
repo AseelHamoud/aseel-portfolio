@@ -129,17 +129,8 @@ function renderStats() {
     return `
     <div class="stat">
       <div class="num" data-target="${digits}" data-suffix="${esc(suffix)}">${esc(num)}</div>
-      ${s.unit ? `<div class="unit">${esc(s.unit)}</div>` : ''}
       <div class="lbl">${esc(s.label)}</div>
       ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
-      ${s.breakdown ? `
-        <div class="breakdown">
-          <span class="breakdown-label">${esc(s.breakdownLabel || T.madeUpOf)}</span>
-          ${s.breakdown.map((b) => `
-            <div class="breakdown-row">
-              <b>${esc(String(b.value))}</b><span>${esc(b.label)}</span>
-            </div>`).join('')}
-        </div>` : ''}
     </div>`;
   }).join('');
 }

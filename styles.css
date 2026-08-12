@@ -177,17 +177,16 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 .stat {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md);
-  box-shadow: var(--shadow); padding: 24px 24px 20px;
+  box-shadow: var(--shadow); padding: 22px 24px 20px;
   transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
 .stat:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(30,44,51,.06), 0 14px 34px rgba(30,44,51,.09); }
 .stat .num {
-  font-family: var(--disp); font-weight: 800; font-size: clamp(28px, 3.4vw, 38px);
-  color: var(--brass); line-height: 1.1;
+  font-family: var(--disp); font-weight: 800; font-size: clamp(30px, 3.5vw, 40px);
+  color: var(--brass); line-height: 1.05;
 }
-.stat .unit { font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--brass); margin-top: -2px; }
-.stat .lbl { font-weight: 600; font-size: 14.5px; margin-top: 6px; }
-.stat .note { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.stat .lbl { font-weight: 600; font-size: 15px; line-height: 1.35; margin-top: 8px; }
+.stat .note { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 5px; }
 
 /* breakdown — visually tied to the figure above it */
 .breakdown {

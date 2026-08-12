@@ -41,29 +41,24 @@ const CONTENT = {
   },
 
   /* ---- Professional statistics ----
-     Add or edit cards freely. `breakdown` is optional and renders
-     as a clearly-linked split of the main figure.                  */
+     Three cards: a figure, a title, and a short supporting line.
+     Add or edit freely — the row adapts.                           */
   stats: [
     {
       value: "7+",
-      label: "Years of Experience",
+      label: "Years of Professional Experience",
+      note: "Sales · Leadership · Operations",
     },
     {
-      value: "132",
-      label: "Learning Hours",
-      note: "recorded internal learning",
+      value: "412+",
+      label: "Professional Learning Hours",
+      note: "Continuous professional development",
     },
     {
-      value: "100",
-      label: "Internal Learning Activities",
-      breakdownLabel: "Made up of",
-      breakdown: [
-        { value: "70", label: "e-Learning Activities" },
-        { value: "30", label: "Instructor-Led / Classroom Activities" },
-      ],
+      value: "82",
+      label: "Volunteer Hours",
+      note: "Community involvement and service",
     },
-    // Project counts and other professional figures are being reviewed —
-    // add them here when confirmed.
   ],
 
   about: [
