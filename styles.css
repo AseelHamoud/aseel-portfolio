@@ -273,6 +273,19 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   font-size: 12.5px; color: var(--muted); line-height: 1.5;
   margin-top: 9px;
 }
+/* Lead shot — full width, sits between the title and the case text. */
+.shots-lead { grid-template-columns: 1fr; margin-top: 4px; margin-bottom: 28px; }
+/* From tablet up the lead shot is already large and readable, so its
+   enlarge link is inert — it reads as a plain image. Below that the shot
+   is only ~220px wide, so the tap-to-enlarge stays live: without it a
+   phone visitor has no way to read the screenshot. */
+@media (min-width: 721px) {
+  .shots-lead .shot a { pointer-events: none; }
+  .shots-lead .shot a:hover { border-color: var(--line); }
+  .shots-lead .shot a:hover img { transform: none; }
+}
+/* Credential shot — deliberately small, closes the card. */
+.shots-credential { grid-template-columns: 1fr; max-width: 300px; }
 
 /* ---------- learning ---------- */
 .learn-figures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }

@@ -177,13 +177,19 @@ const CONTENT = {
         "Initiated the project, gathered and verified the references, designed the record structure, and built the Excel-based tool.",
       outcome:
         "Consolidated 638+ equipment and isolation references into one protected, directly navigable source, making critical information faster and clearer to locate. Presented to management and used during a formal review.",
+      /* `role` decides where an image sits in the card:
+         "lead"       — full width, directly under the title
+         "credential" — small, at the very end of the card
+         no role      — the original side-by-side grid after the text */
       images: [
         {
+          role: "lead",
           src: "assets/projects/isolation-tool-demo.jpg",
           alt: "Interface showing an equipment list beside a detail panel with tag number, location, electrical source and isolation point",
-          caption: "Demonstration created using sample data. No confidential operational information is displayed.",
+          caption: "Illustrative mockup — this is not the real tool. It was recreated with invented sample data to protect company confidentiality. No actual equipment, locations, or operational information is shown.",
         },
         {
+          role: "credential",
           src: "assets/projects/isolation-certificate.jpg",
           alt: "Certificate of Appreciation awarded to Aseel Hamoud, June 2024",
           caption: "Certificate of Appreciation — June 2024",
