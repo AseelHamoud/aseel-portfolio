@@ -237,6 +237,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 
 .case { display: grid; gap: 10px; }
+.case.brief { gap: 16px; }
+.case.brief dd { max-width: 76ch; }
 .case-row { display: grid; grid-template-columns: 128px 1fr; gap: 16px; }
 .case-row dt {
   font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em;
@@ -248,6 +250,28 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   font-size: 12.5px; font-weight: 500; color: var(--ink);
   background: var(--bg); border: 1px solid var(--line);
   padding: 5px 12px; border-radius: 999px;
+}
+
+/* Project images — hover lifts and enlarges slightly; click opens full size. */
+.shots {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  margin-top: 26px;
+}
+.shot { margin: 0; }
+.shot a {
+  display: block; overflow: hidden;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--card);
+}
+.shot img {
+  display: block; width: 100%; height: auto;
+  transition: transform .35s var(--ease);
+}
+.shot a:hover img { transform: scale(1.06); }
+.shot a:hover { border-color: rgba(184,132,46,.45); }
+.shot figcaption {
+  font-size: 12.5px; color: var(--muted); line-height: 1.5;
+  margin-top: 9px;
 }
 
 /* ---------- learning ---------- */
@@ -475,6 +499,7 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   .hero { flex-direction: column-reverse; align-items: flex-start; }
   .stats, .learn-figures, .skills-grid { grid-template-columns: 1fr; }
   .case-row { grid-template-columns: 1fr; gap: 3px; }
+  .shots { grid-template-columns: 1fr; }
   .edu .gpa { text-align: start; }
   .job { padding: 22px 20px; }
   .job-head { gap: 14px; }

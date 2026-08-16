@@ -165,19 +165,30 @@ const CONTENT = {
      `tags` are simple categories. `evidence` is optional.          */
   projects: [
     {
+      /* This one uses the short layout: challenge, role, outcome.
+         A project that supplies `role` and `outcome` instead of
+         `contribution` renders that way; the others are unchanged. */
       title: "Electrical Isolation Points Reference Tool",
       featured: true,
-      tags: ["Digital Tool", "Operational Solution", "Safety Improvement"],
+      tags: ["Industrial Operations", "Digital Tool", "Safety Support"],
       challenge:
-        "Electrical isolation references were spread across separate sources. Finding the isolation point for a given piece of equipment — and the breaker platform it belonged to — took time and repeated cross-checking, in situations where clarity matters most.",
-      contribution:
-        "I initiated the work, gathered and verified the references, designed how the records should be structured, and built the tool in Excel.",
-      solution:
-        "An Excel-based reference tool consolidating 638+ equipment and electrical isolation-point references into one place. It covers equipment such as MOVs and pumps, their electrical isolation locations, and their associated breaker-platform references. Navigation is handled through background-image hyperlinks so users move straight to the area they need, and the worksheet structure is controlled and protected so records stay consistent.",
-      tools: ["Microsoft Excel", "Structured equipment records", "Background-image hyperlinks", "Protected worksheet structure"],
-      value:
-        "Puts scattered isolation references in one organised place, making the information faster to locate and easier to read correctly.",
-      evidence: "Presented to management, and used during review.",
+        "In industrial operations, electrical isolation information for equipment was spread across multiple sources, making it slower to locate and harder to cross-check.",
+      role:
+        "Initiated the project, gathered and verified the references, designed the record structure, and built the Excel-based tool.",
+      outcome:
+        "Consolidated 638+ equipment and isolation references into one protected, directly navigable source, making critical information faster and clearer to locate. Presented to management and used during a formal review.",
+      images: [
+        {
+          src: "assets/projects/isolation-tool-demo.jpg",
+          alt: "Interface showing an equipment list beside a detail panel with tag number, location, electrical source and isolation point",
+          caption: "Demonstration created using sample data. No confidential operational information is displayed.",
+        },
+        {
+          src: "assets/projects/isolation-certificate.jpg",
+          alt: "Certificate of Appreciation awarded to Aseel Hamoud, June 2024",
+          caption: "Certificate of Appreciation — June 2024",
+        },
+      ],
     },
     {
       title: "Operational Checklist & Performance Dashboard",

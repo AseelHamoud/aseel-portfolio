@@ -40,6 +40,7 @@ if (LANG === 'ar' && HAS_AR && CONTENT_AR.skills) C.skills = CONTENT_AR.skills;
 const EN_LABELS = {
   challenge: 'Challenge', contribution: 'My contribution', solution: 'Solution',
   toolsUsed: 'Tools used', value: 'Practical value', evidence: 'Evidence',
+  role: 'My Role', outcome: 'Outcome',
   madeUpOf: 'Made up of', learningHours: 'Learning Hours',
   internalActivities: 'Internal Learning Activities',
   via: 'via', viewCredential: 'View Credential',
@@ -175,20 +176,43 @@ function renderAbout() {
 const EXT = '<svg class="ext" viewBox="0 0 12 12" aria-hidden="true" width="11" height="11"><path d="M4.5 1.5h6v6M10.5 1.5L5 7M8 9.5v1h-7v-7h1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function projectCard(p, isLead) {
+  /* Short layout when the project gives `role` and `outcome` in place of
+     the fuller contribution/solution/tools breakdown. */
+  const brief = p.role && p.outcome && !p.contribution;
+  const rows = brief
+    ? [
+        [T.challenge, esc(p.challenge)],
+        [T.role, esc(p.role)],
+        [T.outcome, esc(p.outcome)],
+      ]
+    : [
+        [T.challenge, esc(p.challenge)],
+        [T.contribution, esc(p.contribution)],
+        [T.solution, esc(p.solution)],
+        [T.toolsUsed, `<span class="tools">${(p.tools || []).map((x) => `<span class="chip">${esc(x)}</span>`).join('')}</span>`],
+        [T.value, esc(p.value)],
+        ...(p.evidence ? [[T.evidence, esc(p.evidence)]] : []),
+      ];
   return `
     <article class="project${isLead ? ' lead' : ''}">
       <div class="project-head">
         <h3>${esc(p.title)}</h3>
-        ${p.tags ? `<div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+        ${p.tags ? `<div class="tags">${p.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join('')}</div>` : ''}
       </div>
-      <dl class="case">
-        <div class="case-row"><dt>${esc(T.challenge)}</dt><dd>${esc(p.challenge)}</dd></div>
-        <div class="case-row"><dt>${esc(T.contribution)}</dt><dd>${esc(p.contribution)}</dd></div>
-        <div class="case-row"><dt>${esc(T.solution)}</dt><dd>${esc(p.solution)}</dd></div>
-        <div class="case-row"><dt>${esc(T.toolsUsed)}</dt><dd class="tools">${p.tools.map((t) => `<span class="chip">${esc(t)}</span>`).join('')}</dd></div>
-        <div class="case-row"><dt>${esc(T.value)}</dt><dd>${esc(p.value)}</dd></div>
-        ${p.evidence ? `<div class="case-row"><dt>${esc(T.evidence)}</dt><dd>${esc(p.evidence)}</dd></div>` : ''}
+      <dl class="case${brief ? ' brief' : ''}">
+        ${rows.map(([label, body]) => `
+        <div class="case-row"><dt>${esc(label)}</dt><dd>${body}</dd></div>`).join('')}
       </dl>
+      ${p.images && p.images.length ? `
+      <div class="shots">
+        ${p.images.filter((im) => im.src).map((im) => `
+        <figure class="shot">
+          <a href="${esc(im.src)}" target="_blank" rel="noopener noreferrer">
+            <img src="${esc(im.src)}" alt="${esc(im.alt || '')}" loading="lazy">
+          </a>
+          ${im.caption ? `<figcaption>${esc(im.caption)}</figcaption>` : ''}
+        </figure>`).join('')}
+      </div>` : ''}
     </article>`;
 }
 
