@@ -186,7 +186,7 @@ const CONTENT = {
           role: "lead",
           src: "assets/projects/isolation-tool-demo.jpg",
           alt: "Interface showing an equipment list beside a detail panel with tag number, location, electrical source and isolation point",
-          caption: "Illustrative mockup — this is not the real tool. It was recreated with invented sample data to protect company confidentiality. No actual equipment, locations, or operational information is shown.",
+          caption: "This is not the real tool. It was recreated with invented sample data to protect company confidentiality. No actual equipment, locations, or operational information is shown.",
         },
         {
           role: "credential",
