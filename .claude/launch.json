@@ -6,6 +6,13 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4600", "--bind", "127.0.0.1"],
       "port": 4600
+    },
+    {
+      "_comment": "Reachable from phones on the same Wi-Fi — for mobile testing only. Stop it when done.",
+      "name": "portfolio-lan",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4700", "--bind", "0.0.0.0"],
+      "port": 4700
     }
   ]
 }
