@@ -196,6 +196,10 @@ const CONTENT = {
         },
       ],
     },
+    /* Held back at Aseel's decision (2026-08-17): the checklist dashboard
+       stays off the site until it is finished, put into use, and recognised.
+       Restore this entry then — and delete the matching commented block in
+       content-ar.js at the same time, so the two languages stay in step.
     {
       title: "Operational Checklist & Performance Dashboard",
       featured: true,
@@ -210,6 +214,7 @@ const CONTENT = {
         "One place to see the current period at a glance, with clearer ownership and easier follow-up.",
       evidence: null,
     },
+    */
     {
       title: "Tank Calculation & Operational Decision Support",
       featured: true,

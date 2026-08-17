@@ -134,6 +134,9 @@ const CONTENT_AR = {
         { caption: "شهادة تقدير — يونيو 2024" },
       ],
     },
+    /* Held back with its English counterpart — see content.js. This array
+       overlays the English one by position, so both blocks must be commented
+       out together or the Arabic text lands on the wrong project.
     {
       title: "لوحة قوائم الفحص والأداء التشغيلي",
       tags: ["أداة رقمية", "تحسين عمليات"],
@@ -145,6 +148,7 @@ const CONTENT_AR = {
       tools: ["Microsoft Excel", "منطق لوحات المتابعة"],
       value: "مكان واحد يعرض الفترة الحالية بنظرة سريعة، مع وضوح أكبر في المسؤولية وسهولة في المتابعة.",
     },
+    */
     {
       title: "حاسبات الخزانات ودعم القرار التشغيلي",
       tags: ["أداة رقمية", "حل تشغيلي"],
