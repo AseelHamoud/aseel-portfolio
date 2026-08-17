@@ -134,6 +134,15 @@ function renderStats() {
       ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
     </div>`;
   }).join('');
+
+  /* The markup carries the real figure, so it survives with no JS and with
+     reduced motion. When the count-up will run, park it at zero first —
+     otherwise the visitor sees the answer before the animation starts. */
+  if (!reduceMotion) {
+    document.querySelectorAll('#stats .num').forEach((el) => {
+      if (Number(el.dataset.target)) el.textContent = `0${el.dataset.suffix || ''}`;
+    });
+  }
 }
 
 function animateCounters() {
@@ -145,7 +154,10 @@ function animateCounters() {
     const t0 = performance.now();
     const dur = 900;
     const tick = (t) => {
-      const p = Math.min(1, (t - t0) / dur);
+      /* A frame callback can carry a timestamp from just before it was
+         scheduled, which would make the first frame render a negative
+         figure. Clamp both ends. */
+      const p = Math.min(1, Math.max(0, (t - t0) / dur));
       el.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 3)))}${suffix}`;
       if (p < 1) requestAnimationFrame(tick);
     };
@@ -488,12 +500,29 @@ function initScroll() {
     for (const e of entries) {
       if (!e.isIntersecting) continue;
       e.target.classList.add('is-visible');
-      if (e.target.id === 'stats') animateCounters();
       observer.unobserve(e.target);
     }
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
-  document.querySelectorAll('.reveal, .stat, #stats').forEach((el) => observer.observe(el));
+  document.querySelectorAll('.reveal, .stat').forEach((el) => observer.observe(el));
+
+  /* The stats row sits just under the hero, close enough that the -8% margin
+     above trips it while the visitor is still reading the hero — the count-up
+     would then be over before they scrolled down to it. Hold it back until
+     the row is 30% of a screen inside the viewport. Using a bottom margin
+     rather than a ratio keeps this correct when the row is tall enough to
+     fill the screen, as it is on a phone. */
+  const statsEl = $('#stats');
+  if (statsEl) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        animateCounters();
+        statsObserver.unobserve(e.target);
+      }
+    }, { threshold: 0, rootMargin: '0px 0px -30% 0px' });
+    statsObserver.observe(statsEl);
+  }
 }
 
 /* Keep the chosen language on internal links so it survives navigation. */

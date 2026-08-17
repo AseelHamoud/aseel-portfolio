@@ -184,6 +184,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .stat .num {
   font-family: var(--disp); font-weight: 800; font-size: clamp(30px, 3.5vw, 40px);
   color: var(--brass); line-height: 1.05;
+  /* Equal-width digits — without this the figure twitches as it counts up. */
+  font-variant-numeric: tabular-nums;
 }
 .stat .lbl { font-weight: 600; font-size: 15px; line-height: 1.35; margin-top: 8px; }
 .stat .note { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 5px; }
