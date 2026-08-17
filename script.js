@@ -158,7 +158,9 @@ function animateCounters() {
          scheduled, which would make the first frame render a negative
          figure. Clamp both ends. */
       const p = Math.min(1, Math.max(0, (t - t0) / dur));
-      el.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 3)))}${suffix}`;
+      /* Quadratic, not cubic: a cubic curve puts 70% of the climb into the
+         first third, which reads as a jump rather than a count. */
+      el.textContent = `${Math.round(target * (1 - Math.pow(1 - p, 2)))}${suffix}`;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -504,23 +506,24 @@ function initScroll() {
     }
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
-  document.querySelectorAll('.reveal, .stat').forEach((el) => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-  /* The stats row sits just under the hero, close enough that the -8% margin
-     above trips it while the visitor is still reading the hero — the count-up
-     would then be over before they scrolled down to it. Hold it back until
-     the row is 30% of a screen inside the viewport. Using a bottom margin
-     rather than a ratio keeps this correct when the row is tall enough to
-     fill the screen, as it is on a phone. */
+  /* The stats cards and their figures share one trigger, so the count-up
+     starts on the same frame the boxes appear instead of trailing behind
+     them. The row sits just under the hero, so this holds back until the row
+     is properly on screen — a bottom margin rather than a visibility ratio,
+     which stays correct on a phone where the stacked row can be taller than
+     the screen and a ratio might never be met. */
   const statsEl = $('#stats');
   if (statsEl) {
     const statsObserver = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
+        statsEl.querySelectorAll('.stat').forEach((card) => card.classList.add('is-visible'));
         animateCounters();
         statsObserver.unobserve(e.target);
       }
-    }, { threshold: 0, rootMargin: '0px 0px -30% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
     statsObserver.observe(statsEl);
   }
 }

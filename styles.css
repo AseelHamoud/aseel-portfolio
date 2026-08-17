@@ -275,8 +275,11 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   font-size: 12.5px; color: var(--muted); line-height: 1.5;
   margin-top: 9px;
 }
-/* Lead shot — full width, sits between the title and the case text. */
-.shots-lead { grid-template-columns: 1fr; margin-top: 4px; margin-bottom: 28px; }
+/* Lead shot — sits between the title and the case text. Capped well short
+   of the card width: at full width the mockup dominated the card and pushed
+   the case text out of the first screen. The cap is inert on a phone, where
+   the shot is already narrower than this. */
+.shots-lead { grid-template-columns: 1fr; max-width: 600px; margin-top: 4px; margin-bottom: 28px; }
 /* From tablet up the lead shot is already large and readable, so its
    enlarge link is inert — it reads as a plain image. Below that the shot
    is only ~220px wide, so the tap-to-enlarge stays live: without it a
@@ -498,7 +501,9 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 @media (prefers-reduced-motion: no-preference) {
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
   .reveal.is-visible { opacity: 1; transform: none; }
-  .stat { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease, box-shadow .2s; }
+  /* Deliberately quicker than .reveal: the card fades in while its figure is
+     counting, so a slow fade would hide the start of the count-up. */
+  .stat { opacity: 0; transform: translateY(16px); transition: opacity .3s ease, transform .3s ease, box-shadow .2s; }
   .stat.is-visible { opacity: 1; transform: none; }
 }
 
