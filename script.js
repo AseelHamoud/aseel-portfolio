@@ -266,6 +266,13 @@ function renderProjects() {
     const featured = C.projects.filter((p) => p.featured);
     const list = featured.length ? featured : C.projects.slice(0, 3);
     featuredHost.innerHTML = list.map((p, i) => projectCard(p, i === 0)).join('');
+
+    /* "View All Projects" only earns its place when there is something the
+       homepage isn't already showing. With every project featured, it led to
+       a page identical to the one the visitor was on. It returns on its own
+       as soon as a project exists that isn't in the list above. */
+    const viewAll = $('#view-all');
+    if (viewAll && list.length >= C.projects.length) viewAll.remove();
   }
   const allHost = $('#all-projects');
   if (allHost) {
