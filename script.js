@@ -528,6 +528,38 @@ function initScroll() {
   }
 }
 
+/* The certificate opens in place instead of in a new tab: clicking it grows
+   the figure, clicking again puts it back, and scrolling it out of view
+   closes it on the way past. The anchor stays a real link in the markup, so
+   with no JS it still opens the image.
+
+   A phone is left on the plain link. The grown size there would be about
+   275px — no more readable than the 217px it starts at — whereas the full
+   image fills the screen. */
+function initCredentialZoom() {
+  document.querySelectorAll('.shots-credential').forEach((box) => {
+    const link = box.querySelector('a');
+    if (!link) return;
+
+    const close = () => {
+      if (!box.classList.contains('is-zoomed')) return;
+      box.classList.remove('is-zoomed');
+      link.setAttribute('aria-expanded', 'false');
+    };
+
+    link.setAttribute('aria-expanded', 'false');
+    link.addEventListener('click', (e) => {
+      if (!window.matchMedia('(min-width: 721px)').matches) return; // open the file
+      e.preventDefault();
+      link.setAttribute('aria-expanded', String(box.classList.toggle('is-zoomed')));
+    });
+
+    new IntersectionObserver((entries) => {
+      for (const e of entries) if (!e.isIntersecting) close();
+    }).observe(box);
+  });
+}
+
 /* Keep the chosen language on internal links so it survives navigation. */
 function keepLangOnLinks() {
   if (LANG !== 'ar') return;
@@ -552,6 +584,7 @@ renderStats();
 renderAbout();
 renderProjects();
 initProjectNav();
+initCredentialZoom();
 renderLearning();
 renderCareer();
 renderEducation();

@@ -289,8 +289,20 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   .shots-lead .shot a:hover { border-color: var(--line); }
   .shots-lead .shot a:hover img { transform: none; }
 }
-/* Credential shot — deliberately small, closes the card. */
+/* Credential shot — deliberately small, closes the card. Clicking it opens
+   it in place rather than in a new tab; see initCredentialZoom in script.js. */
 .shots-credential { grid-template-columns: 1fr; max-width: 300px; }
+@media (min-width: 721px) {
+  .shots-credential .shot a { cursor: zoom-in; }
+  .shots-credential.is-zoomed { max-width: 620px; }
+  .shots-credential.is-zoomed .shot a { cursor: zoom-out; }
+  /* The hover nudge is an affordance for "this opens" — once open it just
+     fights the reader. */
+  .shots-credential.is-zoomed .shot a:hover img { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shots-credential { transition: max-width .35s var(--ease); }
+}
 
 /* ---------- learning ---------- */
 .learn-figures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
