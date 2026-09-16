@@ -4,8 +4,20 @@
 const $ = (sel) => document.querySelector(sel);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- language ---------- */
+/* ---------- language ----------
+   Arabic is finished and kept up to date, but hidden from visitors at
+   Aseel's request (2026-09-17, until further notice).
+
+   To bring it back, flip this one switch to true. Nothing else needs
+   changing: the toggle returns to the nav, and a saved or ?lang=ar
+   preference starts being honoured again. */
+const ARABIC_ENABLED = false;
+
 function resolveLang() {
+  /* While Arabic is off, force English — otherwise a visitor who switched
+     before, or who arrives on a shared ?lang=ar link, would land on the
+     Arabic site with no toggle to get back. */
+  if (!ARABIC_ENABLED) return 'en';
   const fromUrl = new URLSearchParams(location.search).get('lang');
   if (fromUrl === 'ar' || fromUrl === 'en') return fromUrl;
   let saved = null;
@@ -87,6 +99,7 @@ function applyLanguage() {
   if (brand && LANG === 'ar' && HAS_AR) brand.textContent = CONTENT_AR.identity.name;
 
   const btn = $('#lang-toggle');
+  if (btn && !ARABIC_ENABLED) { btn.remove(); return; }
   if (btn) {
     btn.textContent = T.langSwitch;
     btn.setAttribute('lang', LANG === 'ar' ? 'en' : 'ar');
