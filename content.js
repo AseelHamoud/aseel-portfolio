@@ -239,6 +239,10 @@ const CONTENT = {
         },
       ],
     },
+    /* Removed from the site at Aseel's request (2026-09-17). Kept here, like
+       the checklist dashboard above, so it can be restored without being
+       rewritten — restore the matching block in content-ar.js at the same
+       time, since that array overlays this one by position.
     {
       title: "Training & Progress Tracker",
       tags: ["Learning & Development", "Process Improvement"],
@@ -250,6 +254,7 @@ const CONTENT = {
       value: "Makes development progress visible instead of scattered.",
       evidence: null,
     },
+    */
     // More projects and practical solutions will be added here.
   ],
 

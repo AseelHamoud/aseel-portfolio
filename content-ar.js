@@ -163,6 +163,9 @@ const CONTENT_AR = {
         { caption: "شهادة تقدير" },
       ],
     },
+    /* Removed with its English counterpart — see content.js. This array
+       overlays the English one by position, so both blocks must be restored
+       together or the Arabic text lands on the wrong project.
     {
       title: "متتبّع التدريب والتقدّم",
       tags: ["تعلّم وتطوير", "تحسين عمليات"],
@@ -172,6 +175,7 @@ const CONTENT_AR = {
       tools: ["Microsoft Excel"],
       value: "يجعل تقدّم التطوير مرئيًا بدل أن يكون متفرقًا.",
     },
+    */
   ],
 
   learning: {
