@@ -228,6 +228,16 @@ const CONTENT = {
       value:
         "Aims to reduce manual error and shorten the time it takes to reach a checked answer.",
       evidence: null,
+      images: [
+        {
+          role: "credential",
+          src: "assets/projects/tank-calculation-certificate.jpg",
+          alt: "Certificate of Appreciation awarded to Aseel Hamoud for creating a digital tank calculation tool",
+          /* The certificate carries no printed date — TODO: VERIFY the date
+             with Aseel, then match the format used on the isolation card. */
+          caption: "Certificate of Appreciation",
+        },
+      ],
     },
     {
       title: "Training & Progress Tracker",
