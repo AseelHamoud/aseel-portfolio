@@ -53,17 +53,11 @@ const EN_LABELS = {
   challenge: 'Challenge', contribution: 'My contribution', solution: 'Solution',
   toolsUsed: 'Tools used', value: 'Practical value', evidence: 'Evidence',
   role: 'My Role', outcome: 'Outcome',
-  madeUpOf: 'Made up of', learningHours: 'Learning Hours',
-  internalActivities: 'Internal Learning Activities',
-  via: 'via', viewCredential: 'View Credential',
-  clickDetails: 'Click for details', clickClose: 'Click to close',
-  duration: 'Duration', certificate: 'Certificate',
-  certImageSoon: 'CERTIFICATE IMAGE — COMING SOON',
-  providerTBD: 'provider TBD', durationTBD: 'duration TBD', fileSoon: 'file coming soon',
+  viewCredential: 'View Credential',
   emailMe: 'Email me', linkedinSoon: 'LinkedIn — coming soon', cvSoon: 'CV — coming soon',
   downloadCv: 'Download CV', gpa: 'GPA / 4.00', photoSoon: 'PHOTO COMING SOON',
   skipToContent: 'Skip to content', portraitAlt: 'Portrait of {name}',
-  noCourses: 'Courses and credentials will be listed here as they are confirmed.',
+  certificateAlt: 'Certificate — {title}',
   langSwitch: 'العربية',
 };
 const T = (LANG === 'ar' && HAS_AR && CONTENT_AR.ui && CONTENT_AR.ui.labels)
@@ -71,10 +65,6 @@ const T = (LANG === 'ar' && HAS_AR && CONTENT_AR.ui && CONTENT_AR.ui.labels)
   : EN_LABELS;
 
 /* ---------- helpers ---------- */
-function todoChip(label) {
-  return `<span class="todo">${esc(label)}</span>`;
-}
-
 function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -324,54 +314,6 @@ function initProjectNav() {
   }, 250);
 }
 
-/* ---------- learning ---------- */
-function fmtDuration(minutes) {
-  if (minutes == null) return todoChip(T.durationTBD);
-  const h = Math.floor(minutes / 60), m = minutes % 60;
-  return h ? `${h} h ${m ? m + ' m' : ''}`.trim() : `${m} m`;
-}
-
-function renderLearning() {
-  if (!$('#learn-internal')) return;
-  const { internal, external } = C.learning;
-
-  $('#learn-internal').innerHTML = `
-    <div class="learn-figures">
-      <div class="learn-stat"><div class="num">${internal.hours}</div><div class="lbl">${esc(T.learningHours)}</div></div>
-      <div class="learn-stat">
-        <div class="num">${internal.activities}</div><div class="lbl">${esc(T.internalActivities)}</div>
-        <div class="breakdown">
-          <span class="breakdown-label">${esc(T.madeUpOf)}</span>
-          ${internal.breakdown.map((b) => `
-            <div class="breakdown-row"><b>${b.value}</b><span>${esc(b.label)}</span></div>`).join('')}
-        </div>
-      </div>
-    </div>
-    <p class="learn-note">${esc(internal.note)}</p>`;
-
-  $('#learn-external').innerHTML = external.length
-    ? external.map((c, i) => `
-      <button class="course" aria-expanded="false" data-i="${i}">
-        <span class="cat">${esc(c.category)}</span>
-        <h4>${esc(c.title)}</h4>
-        <p class="meta">${c.provider ? esc(c.provider) : todoChip(T.providerTBD)} · ${c.completed ? esc(c.completed) : todoChip(T.providerTBD)}</p>
-        <div class="details">
-          <p>${esc(T.duration)}: ${fmtDuration(c.minutes)}</p>
-          <p>${esc(T.certificate)}: ${c.certificate ? `<a href="${esc(c.certificate)}">${esc(T.viewCredential)}</a>` : todoChip(T.fileSoon)}</p>
-        </div>
-        <p class="hint">${esc(T.clickDetails)}</p>
-      </button>`).join('')
-    : `<div class="empty">${esc(T.noCourses)}</div>`;
-
-  document.querySelectorAll('#learn-external .course').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      btn.querySelector('.hint').textContent = open ? T.clickDetails : T.clickClose;
-    });
-  });
-}
-
 /* ---------- career journey ---------- */
 function logoMark(e) {
   return e.logo
@@ -412,17 +354,59 @@ function renderCareer() {
     </article>`).join('');
 }
 
-/* ---------- education ---------- */
+/* ---------- education ----------
+   Restored to its original form. The data is a list so further degrees can
+   be added as more entries; with one entry the rendered markup is exactly
+   what it has always been. */
 function renderEducation() {
-  if (!$('#edu-body')) return;
-  const ed = C.education;
-  $('#edu-body').innerHTML = `
-    <div>
-      <h3>${esc(ed.degree)}</h3>
-      <p class="school">${esc(ed.school)} — ${esc(ed.status)}</p>
-      <p class="school">${esc(ed.note)}</p>
-    </div>
-    <div class="gpa">${esc(ed.gpa.split(' ')[0])}<small>${esc(T.gpa)}</small></div>`;
+  const host = $('#edu-body');
+  if (!host) return;
+  const list = Array.isArray(C.education) ? C.education : [C.education];
+  host.innerHTML = list.filter(Boolean).map((ed) => `
+    <div class="edu">
+      <div>
+        <h3>${esc(ed.degree)}</h3>
+        <p class="school">${esc(ed.school)} — ${esc(ed.status)}</p>
+        ${ed.note ? `<p class="school">${esc(ed.note)}</p>` : ''}
+      </div>
+      ${ed.gpa ? `<div class="gpa">${esc(ed.gpa.split(' ')[0])}<small>${esc(T.gpa)}</small></div>` : ''}
+    </div>`).join('');
+}
+
+/* ---------- licenses & certifications ----------
+   Only confirmed fields are printed: anything null is left out rather than
+   announced as pending, and `type` stays absent until the kind of credential
+   is actually known — a course completion must never be dressed as a
+   certification.
+
+   The provider is plain text on purpose. A link to a course catalogue sends
+   the reader away from Aseel; the certificate image is the evidence instead.
+
+   That image is built with the same shotFigure() and .shots-credential
+   markup the Projects section uses, so initCredentialZoom() picks it up on
+   its own — one viewer, one behaviour, no second system. */
+function renderCertifications() {
+  const host = $('#creds-list');
+  if (!host) return;
+  const list = (C.learning.external || []).filter((c) => c && c.title);
+  if (!list.length) {
+    const section = $('#certifications');
+    if (section) section.remove();
+    return;
+  }
+  host.innerHTML = list.map((c) => `
+    <li class="cred">
+      <div class="cred-main">
+        ${c.type ? `<span class="cred-type">${esc(c.type)}</span>` : ''}
+        <h4>${esc(c.title)}</h4>
+        ${c.provider ? `<p class="cred-issuer">${esc(c.provider)}</p>` : ''}
+        ${c.completed ? `<p class="cred-date">${esc(c.completed)}</p>` : ''}
+      </div>
+      ${c.certificate ? `
+      <div class="shots shots-credential">
+        ${shotFigure({ src: c.certificate, alt: T.certificateAlt.replace('{title}', c.title) })}
+      </div>` : ''}
+    </li>`).join('');
 }
 
 /* ---------- skills ---------- */
@@ -433,31 +417,6 @@ function renderSkills() {
       <h3>${esc(cat)}</h3>
       <ul>${items.map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>
     </div>`).join('');
-}
-
-/* ---------- certificates ----------
-   "View Credential" only appears when a real credential URL exists. */
-function renderCerts() {
-  if (!$('#cert-grid')) return;
-  $('#cert-grid').innerHTML = C.learning.external.map((c) => {
-    const provider = c.provider
-      ? (c.providerUrl
-          ? `<a href="${esc(c.providerUrl)}" target="_blank" rel="noopener noreferrer">${esc(c.provider)}${EXT}</a>`
-          : esc(c.provider))
-      : todoChip(T.providerTBD);
-    return `
-    <div class="cert">
-      <div class="cert-thumb">${c.certificate ? '' : esc(T.certImageSoon)}</div>
-      <div class="cert-body">
-        <h4>${esc(c.title)}</h4>
-        <p class="cert-provider">${esc(T.via)} ${provider}</p>
-        <p class="cert-meta">${esc(c.category)}${c.completed ? ' · ' + esc(c.completed) : ''} · ${fmtDuration(c.minutes)}</p>
-        ${c.credentialUrl
-          ? `<a class="cert-cta" href="${esc(c.credentialUrl)}" target="_blank" rel="noopener noreferrer">${esc(T.viewCredential)}${EXT}</a>`
-          : ''}
-      </div>
-    </div>`;
-  }).join('');
 }
 
 /* ---------- recommendation ---------- */
@@ -604,12 +563,13 @@ renderStats();
 renderAbout();
 renderProjects();
 initProjectNav();
-initCredentialZoom();
-renderLearning();
 renderCareer();
 renderEducation();
+renderCertifications();
+/* After every section that can hold a certificate — the viewer scans the
+   page once, so it has to run when the last of them is on it. */
+initCredentialZoom();
 renderSkills();
-renderCerts();
 renderRecommendation();
 renderContact();
 keepLangOnLinks();

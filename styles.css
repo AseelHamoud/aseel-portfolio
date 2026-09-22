@@ -190,29 +190,6 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .stat .lbl { font-weight: 600; font-size: 15px; line-height: 1.35; margin-top: 8px; }
 .stat .note { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 5px; }
 
-/* breakdown — visually tied to the figure above it */
-.breakdown {
-  margin-top: 14px; padding-top: 12px;
-  border-top: 1px dashed rgba(184,132,46,.4);
-}
-.breakdown-label {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--muted);
-  display: block; margin-bottom: 8px;
-}
-.breakdown-row { display: flex; align-items: baseline; gap: 10px; }
-.breakdown-row + .breakdown-row { margin-top: 4px; }
-.breakdown-row b {
-  font-family: var(--disp); font-weight: 700; font-size: 16px; color: var(--brass);
-  min-width: 2.2ch;
-}
-.breakdown-row span { font-size: 13px; color: var(--muted); }
-
-/* ---------- about ---------- */
-.about-body p { color: var(--muted); max-width: 72ch; }
-.about-body p + p { margin-top: 14px; }
-.about-body strong { color: var(--ink); font-weight: 600; }
-
 /* ---------- projects ---------- */
 .project-list { display: grid; gap: 16px; }
 .project {
@@ -302,45 +279,7 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 @media (prefers-reduced-motion: no-preference) {
   .shots-credential { transition: max-width .35s var(--ease); }
-}
-
-/* ---------- learning ---------- */
-.learn-figures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.learn-stat {
-  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 20px 22px;
-}
-.learn-stat .num { font-family: var(--disp); font-weight: 800; font-size: 30px; color: var(--brass); line-height: 1.1; }
-.learn-stat .lbl { font-size: 14px; font-weight: 600; margin-top: 2px; }
-.learn-note { color: var(--muted); font-size: 14px; margin-top: 14px; max-width: 68ch; }
-
-.learn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.course {
-  text-align: left; width: 100%;
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 20px 24px; cursor: pointer; font: inherit; color: inherit;
-  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
-}
-.course:hover { border-color: rgba(184,132,46,.45); transform: translateY(-2px); box-shadow: var(--shadow); }
-.course .cat {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--brass);
-  background: var(--brass-soft); border-radius: 999px; padding: 4px 10px;
-  display: inline-block; margin-bottom: 10px;
-}
-.course h4 { font-family: var(--disp); font-weight: 700; font-size: 15.5px; }
-.course .meta { font-size: 13px; color: var(--muted); margin-top: 5px; }
-.course .details {
-  display: none; margin-top: 14px; padding-top: 14px;
-  border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted);
-}
-.course[aria-expanded="true"] .details { display: block; }
-.course .hint { font-size: 11.5px; color: var(--brass); margin-top: 10px; font-weight: 500; }
-
-.empty {
-  border: 1.5px dashed var(--line); border-radius: var(--r-md); padding: 26px;
-  color: var(--muted); font-size: 14.5px; text-align: center;
-  grid-column: 1 / -1;
+  .cred .shots-credential { transition: max-width .4s var(--ease); }
 }
 
 /* ---------- career journey ---------- */
@@ -409,6 +348,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 
 /* ---------- education ---------- */
 .edu { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+/* Only applies once a second degree is added — no effect on a single entry. */
+.edu + .edu { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
 .edu h3 { font-family: var(--disp); font-weight: 700; font-size: 18px; }
 .edu .school { color: var(--muted); margin-top: 3px; }
 .edu .gpa {
@@ -424,23 +365,6 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
   text-transform: uppercase; color: var(--brass); margin-bottom: 14px;
 }
 .skill-col ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-
-/* ---------- certificates ---------- */
-.cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.cert {
-  border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden;
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
-}
-.cert:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.cert-thumb {
-  height: 120px; background: var(--bg);
-  border-bottom: 1px dashed var(--line);
-  display: grid; place-items: center;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted);
-}
-.cert-body { padding: 18px 20px; }
-.cert-body h4 { font-family: var(--disp); font-weight: 700; font-size: 15px; }
-.cert-body p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
 /* ---------- recommendation ---------- */
 .rec-card {
@@ -470,19 +394,53 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 }
 .back-link:hover { color: var(--brass); }
 
-/* ---------- certificate details ---------- */
-.cert-provider { font-size: 13.5px; color: var(--muted); margin-top: 5px; }
-.cert-provider a { color: var(--brass); text-decoration: none; }
-.cert-provider a:hover { text-decoration: underline; }
-.cert-meta { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
-.cert-cta {
-  display: inline-flex; align-items: center; margin-top: 12px;
-  font-family: var(--disp); font-weight: 700; font-size: 13px;
-  color: var(--ink); border: 1.5px solid var(--line);
-  border-radius: var(--r-sm); padding: 9px 16px; text-decoration: none;
-  transition: border-color .2s, color .2s;
+/* ---------- licenses & certifications ----------
+   A list, not a grid of tiles: cards would read as a collection, and a
+   course completion and a formal certification should not be dressed
+   alike. Only the presentation inside the section is styled here — the
+   section's own heading, padding and rhythm come from .panel like every
+   other section. */
+.creds { list-style: none; }
+.cred {
+  display: grid; grid-template-columns: 1fr auto; gap: clamp(18px, 3vw, 32px);
+  align-items: start;
+  padding: 20px 0; border-top: 1px solid var(--line);
 }
-.cert-cta:hover { border-color: var(--brass); color: var(--brass); }
+.cred:first-child { border-top: 0; padding-top: 4px; }
+.cred:last-child { padding-bottom: 0; }
+.cred-main { min-width: 0; }
+.cred-type {
+  display: block; font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--brass);
+  margin-bottom: 6px;
+}
+.cred h4 { font-family: var(--disp); font-weight: 700; font-size: 16.5px; }
+.cred-issuer { font-size: 14.5px; color: var(--muted); margin-top: 5px; }
+.cred-date { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+/* The thumbnail is evidence beside the credential, not the subject of the
+   row — smaller here than the same component is inside a project card. */
+.cred .shots-credential { max-width: 190px; margin: 0; }
+
+@media (min-width: 721px) {
+  /* The certificate grows where it already sits. Flipping the row to one
+     column on open moved it under the text in a single frame — grid tracks
+     cannot be interpolated, so that reflow could never be smoothed, and the
+     growth that followed read as a second, separate jump. Widening the
+     thumbnail alone lets the auto track follow it frame by frame. */
+  .cred .shots-credential.is-zoomed { max-width: 480px; }
+  /* The hover nudge would otherwise scale back to 1 at the same moment,
+     competing with the growth. The cursor already signals the action. */
+  .cred .shot a:hover img { transform: none; }
+}
+
+/* Below the viewer's own breakpoint the row stacks, and the thumbnail stays
+   modest so it never takes over the section. */
+@media (max-width: 720px) {
+  .cred { grid-template-columns: 1fr; gap: 14px; }
+  .cred .shots-credential { max-width: 240px; }
+}
+
 .rec-relation { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
 .rec-label {
   font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
@@ -491,12 +449,6 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .rec-text { color: var(--muted); max-width: 72ch; }
 
 /* ---------- placeholders ---------- */
-.todo {
-  font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em;
-  color: var(--muted); background: var(--bg);
-  border: 1px dashed var(--line); border-radius: 6px; padding: 2px 8px;
-}
-
 /* ---------- contact ---------- */
 .contact { text-align: center; }
 .contact .section-sub { margin-inline: auto; }
@@ -521,15 +473,20 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
-  .learn-grid, .cert-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
   .job-points { padding-inline-start: 0; }
   .stages { margin-inline-start: 0; }
 }
-@media (max-width: 640px) {
+/* The nav carries seven links; below ~666px they crowd the bar and push the
+   Contact pill into the page padding. Hidden on their own breakpoint so the
+   hero, stats and card layouts below keep theirs unchanged. */
+@media (max-width: 680px) {
   .top-links a:not(.top-cta) { display: none; }
+}
+
+@media (max-width: 640px) {
   .hero { flex-direction: column-reverse; align-items: flex-start; }
-  .stats, .learn-figures, .skills-grid { grid-template-columns: 1fr; }
+  .stats, .skills-grid { grid-template-columns: 1fr; }
   .case-row { grid-template-columns: 1fr; gap: 3px; }
   .shots { grid-template-columns: 1fr; }
   .edu .gpa { text-align: start; }
@@ -563,17 +520,15 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 /* Wide tracking is borrowed from the mono face and breaks Arabic script. */
 :root[dir="rtl"] .tagline,
 :root[dir="rtl"] .sub-head,
-:root[dir="rtl"] .breakdown-label,
 :root[dir="rtl"] .case-row dt,
 :root[dir="rtl"] .tag,
-:root[dir="rtl"] .course .cat,
 :root[dir="rtl"] .stage-sub,
 :root[dir="rtl"] .skill-col h3,
 :root[dir="rtl"] .rec-label,
 :root[dir="rtl"] .rec-relation,
-:root[dir="rtl"] .cert-thumb,
+:root[dir="rtl"] .cred-type,
+:root[dir="rtl"] .cred-date,
 :root[dir="rtl"] .foot p,
-:root[dir="rtl"] .todo,
 :root[dir="rtl"] .status-kinds,
 :root[dir="rtl"] .job-title .period {
   font-family: var(--sans);
@@ -584,11 +539,8 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 /* Latin fragments (tool names, figures) stay left-to-right inside Arabic. */
 :root[dir="rtl"] .chip,
 :root[dir="rtl"] .edu .gpa,
+:root[dir="rtl"] .stat .num { direction: ltr; unicode-bidi: isolate; }
 :root[dir="rtl"] .stat .num,
-:root[dir="rtl"] .learn-stat .num,
-:root[dir="rtl"] .breakdown-row b { direction: ltr; unicode-bidi: isolate; }
-:root[dir="rtl"] .stat .num,
-:root[dir="rtl"] .learn-stat .num,
 :root[dir="rtl"] .edu .gpa { text-align: start; }
 
 /* The external-link glyph points the other way in RTL. */

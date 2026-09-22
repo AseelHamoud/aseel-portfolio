@@ -258,8 +258,9 @@ const CONTENT = {
     // More projects and practical solutions will be added here.
   ],
 
-  /* ---- Learning & credentials ----
-     Internal company learning is kept separate from external credentials. */
+  /* ---- Learning ----
+     `external` feeds the Licenses & Certifications section. `internal` and
+     `categories` are kept for later use and are not rendered anywhere. */
   learning: {
     internal: {
       hours: 132,
@@ -273,11 +274,32 @@ const CONTENT = {
     categories: ["Operations", "Safety", "Business & Leadership", "AI & Digital Tools", "Personal Development"],
     external: [
       {
+        /* Every field below is read off the certificate itself and Aseel's
+           own listing of it — nothing inferred. The issue date is the one
+           printed on the certificate (2026-09-01), which is more precise
+           than the "Sep 2026" shown on the listing. */
+        title: "Problem Solving Skills",
+        provider: "International Business Management Institute (IBMI)",
+        providerUrl: null,     // deliberately none — providers are not linked
+        credentialUrl: null,   // the certificate image is the evidence
+        credentialId: "1293736-178-823-9857", // held, not displayed
+        category: TODO_VERIFY,
+        type: "Course Certificate",
+        minutes: TODO_VERIFY,
+        completed: "1 September 2026",
+        certificate: "assets/credentials/problem-solving-skills-ibmi.jpg",
+      },
+      {
         title: "ChatGPT & Its Practical Use Cases",
         provider: "Skillsoft – T&D",
         providerUrl: "https://www.skillsoft.com",
         credentialUrl: null, // no public credential link yet
         category: "AI & Digital Tools",
+        /* What kind of credential this is — "Course Completion",
+           "Professional Certificate", "Certification", "License",
+           "Accredited Qualification". Left unconfirmed: it is shown only
+           when known, so a course is never dressed as a certification. */
+        type: TODO_VERIFY,
         minutes: 67, // 1 h 07 m
         completed: "July 2026",
         certificate: null, // TODO: add certificate image/PDF path
@@ -288,6 +310,7 @@ const CONTENT = {
         providerUrl: null,
         credentialUrl: null, // no public credential link yet
         category: "AI & Digital Tools",
+        type: TODO_VERIFY,     // TODO: confirm the kind of credential
         minutes: TODO_VERIFY,  // TODO: confirm duration
         completed: "24 July 2026",
         certificate: null, // TODO: add certificate image/PDF path
@@ -297,13 +320,18 @@ const CONTENT = {
     ],
   },
 
-  education: {
-    degree: "Bachelor of Business Administration",
-    school: "Saudi Electronic University",
-    status: "Currently studying — second year",
-    gpa: "3.30 / 4.00",
-    note: "Studying while working rotating shifts.",
-  },
+  /* ---- Education ----
+     A list so further degrees can be added as more entries. With one entry
+     the section renders exactly as it always has.                        */
+  education: [
+    {
+      degree: "Bachelor of Business Administration",
+      school: "Saudi Electronic University",
+      status: "Currently studying — second year",
+      gpa: "3.30 / 4.00",
+      note: "Studying while working rotating shifts.",
+    },
+  ],
 
   skills: {
     "Operations": ["Field Operations", "DCS Operations", "Operational Coordination", "Safety Awareness", "Documentation"],

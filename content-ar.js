@@ -180,21 +180,28 @@ const CONTENT_AR = {
 
   learning: {
     internal: {
+      /* Kept in step with content.js although nothing here is rendered any
+         more — the internal figures stay in the data for later use. */
       note: "تعلّم داخلي موثّق داخل الشركة. رقما 70 و30 هما عدد الأنشطة، ويشكّلان معًا الـ100 نشاط تعلّم داخلي.",
     },
+    categories: ["العمليات", "السلامة", "الأعمال والقيادة", "الذكاء الاصطناعي والأدوات الرقمية", "التطوير الشخصي"],
     external: [
-      { title: "ChatGPT وحالات استخدامه العملية", category: "الذكاء الاصطناعي والأدوات الرقمية" },
-      { title: "GitHub Copilot — شهادة تعلّم", category: "الذكاء الاصطناعي والأدوات الرقمية" },
+      { title: "مهارات حل المشكلات", type: "شهادة دورة", completed: "1 سبتمبر 2026" },
+      { title: "ChatGPT وحالات استخدامه العملية", category: "الذكاء الاصطناعي والأدوات الرقمية", completed: "يوليو 2026" },
+      { title: "GitHub Copilot — شهادة تعلّم", category: "الذكاء الاصطناعي والأدوات الرقمية", completed: "24 يوليو 2026" },
     ],
   },
 
-  education: {
-    degree: "بكالوريوس إدارة أعمال",
-    school: "الجامعة السعودية الإلكترونية",
-    status: "طالب — السنة الثانية",
-    gpa: "3.30 / 4.00",
-    note: "الدراسة بالتوازي مع العمل بنظام الورديات.",
-  },
+  /* A list, matching content.js — overlaid by position. */
+  education: [
+    {
+      degree: "بكالوريوس إدارة أعمال",
+      school: "الجامعة السعودية الإلكترونية",
+      status: "طالب — السنة الثانية",
+      gpa: "3.30 / 4.00",
+      note: "الدراسة بالتوازي مع العمل بنظام الورديات.",
+    },
+  ],
 
   skills: {
     "العمليات": ["عمليات ميدانية", "تشغيل DCS", "تنسيق تشغيلي", "وعي بالسلامة", "التوثيق"],
@@ -219,7 +226,7 @@ const CONTENT_AR = {
   /* نصوص واجهة الموقع */
   ui: {
     pageTitles: { projects: "كل المشاريع — أصيل حمود" },
-    nav: { about: "عني", projects: "المشاريع", learning: "التعلّم", experience: "الخبرات", skills: "المهارات", contact: "تواصل" },
+    nav: { about: "عني", projects: "المشاريع", experience: "الخبرات", education: "التعليم", certifications: "الشهادات", skills: "المهارات", contact: "تواصل" },
     heroButtons: { work: "شاهد أعمالي", about: "عني", contact: "تواصل معي" },
     sections: {
       about: "عني",
@@ -229,15 +236,13 @@ const CONTENT_AR = {
       allProjects: "كل المشاريع والحلول العملية",
       allProjectsSub: "كل المشاريع الموثّقة — أفكار عملية، وحل مشكلات، وأدوات رقمية مبنية على احتياج تشغيلي حقيقي.",
       backToPortfolio: "→ رجوع إلى الموقع",
-      learning: "التعلّم والشهادات",
-      internalLearning: "التعلّم الداخلي في الشركة",
-      coursesCreds: "الدورات والشهادات",
       experience: "الخبرات",
       experienceSub: "مسار مهني يمتد من صالة البيع إلى غرفة التحكم — مرتّب من الأحدث إلى الأقدم.",
       education: "التعليم",
+      certifications: "الرخص والشهادات المهنية",
+      certificationsSub: "سجل مختار من الشهادات المكتملة، يدعم التطوير المهني المستمر.",
       skills: "المهارات والأدوات",
       skillsSub: "معروضة بصدق — بدون نسب إتقان مُفترضة.",
-      certificates: "الشهادات",
       contact: "لنتحدث",
       contactSub: "مُرحّب بالحديث حول العمليات والأعمال وتحسين العمليات والأدوات العملية.",
     },
@@ -248,19 +253,7 @@ const CONTENT_AR = {
       toolsUsed: "الأدوات",
       value: "القيمة العملية",
       evidence: "الدليل",
-      madeUpOf: "تتوزع على",
-      learningHours: "ساعة تعلّم",
-      internalActivities: "نشاط تعلّم داخلي",
-      via: "عبر",
       viewCredential: "عرض الشهادة",
-      clickDetails: "اضغط للتفاصيل",
-      clickClose: "اضغط للإغلاق",
-      duration: "المدة",
-      certificate: "الشهادة",
-      certImageSoon: "صورة الشهادة — قريبًا",
-      providerTBD: "الجهة قريبًا",
-      durationTBD: "المدة قريبًا",
-      fileSoon: "الملف قريبًا",
       emailMe: "راسلني",
       linkedinSoon: "لينكدإن — قريبًا",
       cvSoon: "السيرة الذاتية — قريبًا",
@@ -269,7 +262,7 @@ const CONTENT_AR = {
       photoSoon: "الصورة قريبًا",
       skipToContent: "تخطَّ إلى المحتوى",
       portraitAlt: "صورة {name}",
-      noCourses: "ستُدرج الدورات والشهادات هنا فور توثيقها.",
+      certificateAlt: "شهادة — {title}",
       langSwitch: "English",
     },
   },

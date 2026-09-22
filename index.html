@@ -30,7 +30,7 @@
 <link rel="preload" href="assets/fonts/archivo-1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/fonts/fonts-ar.css">
-<link rel="stylesheet" href="styles.css?v=43">
+<link rel="stylesheet" href="styles.css?v=52">
 </head>
 <body>
 
@@ -43,8 +43,9 @@
   <div class="top-links">
     <a href="#about" data-i18n="nav.about">About</a>
     <a href="#projects" data-i18n="nav.projects">Projects</a>
-    <a href="#learning" data-i18n="nav.learning">Learning</a>
     <a href="#experience" data-i18n="nav.experience">Experience</a>
+    <a href="#education" data-i18n="nav.education">Education</a>
+    <a href="#certifications" data-i18n="nav.certifications">Credentials</a>
     <a href="#skills" data-i18n="nav.skills">Skills</a>
     <a href="#contact" class="top-cta" data-i18n="nav.contact">Contact</a>
     <button class="lang-toggle" id="lang-toggle" type="button">العربية</button>
@@ -87,15 +88,6 @@
     <a class="btn ghost view-all" id="view-all" href="projects.html" data-i18n="sections.viewAll">View All Projects</a>
   </section>
 
-  <!-- Learning -->
-  <section class="panel reveal" id="learning">
-    <h2 data-i18n="sections.learning">Learning &amp; Credentials</h2>
-    <h3 class="sub-head" data-i18n="sections.internalLearning">Internal company learning</h3>
-    <div class="learn-internal" id="learn-internal"></div>
-    <h3 class="sub-head" data-i18n="sections.coursesCreds">Courses &amp; credentials</h3>
-    <div class="learn-grid" id="learn-external"></div>
-  </section>
-
   <!-- Experience -->
   <section class="panel reveal" id="experience">
     <h2 data-i18n="sections.experience">Experience</h2>
@@ -103,10 +95,20 @@
     <div class="career" id="career"></div>
   </section>
 
-  <!-- Education -->
+  <!-- Education — restored to its original standalone form. #edu-body is a
+       plain wrapper so further degrees can be added as more .edu entries;
+       with one entry the rendered markup is what it has always been. -->
   <section class="panel reveal" id="education">
     <h2 data-i18n="sections.education">Education</h2>
-    <div class="edu" id="edu-body"></div>
+    <div id="edu-body"></div>
+  </section>
+
+  <!-- Licenses & Certifications — deliberately its own section: a degree and
+       a credential are not the same claim. -->
+  <section class="panel reveal" id="certifications">
+    <h2 data-i18n="sections.certifications">Licenses &amp; Certifications</h2>
+    <p class="section-sub" data-i18n="sections.certificationsSub">A selected record of completed credentials supporting continued professional development.</p>
+    <ul class="creds" id="creds-list"></ul>
   </section>
 
   <!-- Skills -->
@@ -114,12 +116,6 @@
     <h2 data-i18n="sections.skills">Skills &amp; tools</h2>
     <p class="section-sub" data-i18n="sections.skillsSub">Presented honestly — no invented proficiency scores.</p>
     <div class="skills-grid" id="skills-grid"></div>
-  </section>
-
-  <!-- Certificates -->
-  <section class="panel reveal" id="certificates">
-    <h2 data-i18n="sections.certificates">Certificates</h2>
-    <div class="cert-grid" id="cert-grid"></div>
   </section>
 
   <!-- Recommendation -->
@@ -141,9 +137,9 @@
 
 </main>
 
-<script src="content.js?v=43"></script>
-<script src="content-ar.js?v=43"></script>
-<script src="script.js?v=43"></script>
+<script src="content.js?v=52"></script>
+<script src="content-ar.js?v=52"></script>
+<script src="script.js?v=52"></script>
 <noscript><p style="padding:2rem;font-family:sans-serif">This site needs JavaScript to display its content. — Aseel Hamoud, Operations Professional. Contact: bnhamoud22@gmail.com</p></noscript>
 </body>
 </html>
