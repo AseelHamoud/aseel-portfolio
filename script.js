@@ -63,7 +63,7 @@ const EN_LABELS = {
   emailMe: 'Email me', linkedinSoon: 'LinkedIn — coming soon', cvSoon: 'CV — coming soon',
   downloadCv: 'Download CV', gpa: 'GPA / 4.00', photoSoon: 'PHOTO COMING SOON',
   skipToContent: 'Skip to content', portraitAlt: 'Portrait of {name}',
-  certificateAlt: 'Certificate — {title}',
+  certificateAlt: 'Certificate — {title}', credentialId: 'Credential ID',
   langSwitch: 'العربية',
 };
 const T = (LANG === 'ar' && HAS_AR && CONTENT_AR.ui && CONTENT_AR.ui.labels)
@@ -407,6 +407,7 @@ function renderCertifications() {
         <h4>${esc(c.title)}</h4>
         ${c.provider ? `<p class="cred-issuer">${esc(c.provider)}</p>` : ''}
         ${c.completed ? `<p class="cred-date">${esc(c.completed)}</p>` : ''}
+        ${c.credentialId ? `<p class="cred-id">${esc(T.credentialId)} <span>${esc(c.credentialId)}</span></p>` : ''}
       </div>
       ${c.certificate ? `
       <div class="shots shots-credential">

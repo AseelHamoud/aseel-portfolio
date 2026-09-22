@@ -417,6 +417,10 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 .cred h4 { font-family: var(--disp); font-weight: 700; font-size: 16.5px; }
 .cred-issuer { font-size: 14.5px; color: var(--muted); margin-top: 5px; }
 .cred-date { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
+.cred-id { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 3px; }
+/* The number itself is Latin; isolate it so Arabic around it cannot
+   reorder its segments. */
+.cred-id span { unicode-bidi: isolate; }
 
 /* The thumbnail is evidence beside the credential, not the subject of the
    row — smaller here than the same component is inside a project card. */
@@ -528,6 +532,7 @@ h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(36px, 5vw, 52p
 :root[dir="rtl"] .rec-relation,
 :root[dir="rtl"] .cred-type,
 :root[dir="rtl"] .cred-date,
+:root[dir="rtl"] .cred-id,
 :root[dir="rtl"] .foot p,
 :root[dir="rtl"] .status-kinds,
 :root[dir="rtl"] .job-title .period {

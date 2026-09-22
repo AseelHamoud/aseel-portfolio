@@ -263,6 +263,7 @@ const CONTENT_AR = {
       skipToContent: "تخطَّ إلى المحتوى",
       portraitAlt: "صورة {name}",
       certificateAlt: "شهادة — {title}",
+      credentialId: "رقم الشهادة",
       langSwitch: "English",
     },
   },
