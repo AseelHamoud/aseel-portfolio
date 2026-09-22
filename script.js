@@ -13,6 +13,12 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
    preference starts being honoured again. */
 const ARABIC_ENABLED = false;
 
+/* Skills & tools is hidden from visitors at Aseel's request (2026-09-22),
+   temporarily. Flip this to true to bring the section and its nav link
+   back — nothing else needs changing, and the skills data in content.js
+   and content-ar.js is left untouched meanwhile. */
+const SHOW_SKILLS = false;
+
 function resolveLang() {
   /* While Arabic is off, force English — otherwise a visitor who switched
      before, or who arrives on a shared ?lang=ar link, would land on the
@@ -411,6 +417,14 @@ function renderCertifications() {
 
 /* ---------- skills ---------- */
 function renderSkills() {
+  if (!SHOW_SKILLS) {
+    /* Take the nav link with it — a link to a section that is no longer on
+       the page is a dead anchor. */
+    const section = $('#skills');
+    if (section) section.remove();
+    document.querySelectorAll('.top-links a[href$="#skills"]').forEach((a) => a.remove());
+    return;
+  }
   if (!$('#skills-grid')) return;
   $('#skills-grid').innerHTML = Object.entries(C.skills).map(([cat, items]) => `
     <div class="skill-col">
