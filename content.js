@@ -65,7 +65,7 @@ const CONTENT = {
     "My story didn’t start in a control room. It started in sales — consumer technology, retail leadership, and later co-running a specialty-coffee business — where I learned customers, teams, and what ownership really means.",
 
     "In 2019 I joined Saudi Aramco, and in 2021 I moved into hands-on field operations and DCS control-room work — alongside operational coordination, SAP, documentation, safety, and workflow improvement. Working the frontline showed me where the real friction lives — and I kept turning that friction into practical, documented tools that teams actually use.",
-    "Today I’m studying Business Administration at Saudi Electronic University while working rotating shifts. My operational background is my foundation — my direction is growth into business, process improvement, digital transformation, AI, training, and leadership.",
+    "Today I’m studying Business Administration at Prince Musaid bin Abdulrahman University while working rotating shifts. My operational background is my foundation — my direction is growth into business, process improvement, digital transformation, AI, training, and leadership.",
   ],
 
   /* ---- Career journey (most recent first) ----
@@ -326,8 +326,9 @@ const CONTENT = {
   education: [
     {
       degree: "Bachelor of Business Administration",
-      school: "Saudi Electronic University",
-      status: "Currently studying — second year",
+      school: "Prince Musaid bin Abdulrahman University",
+      /* No year or level — Aseel's decision (2026-09-24). */
+      status: "Currently studying",
       gpa: "3.30 / 4.00",
       note: "Studying while working rotating shifts.",
     },
