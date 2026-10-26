@@ -220,15 +220,15 @@ const CONTENT = {
       title: "Tank Calculation & Operational Decision Support",
       featured: true,
       tags: ["Digital Tool", "Operational Solution"],
+      /* Challenge / role / outcome, matching the isolation card above —
+         a project renders the short layout when it gives `role` and
+         `outcome` and no `contribution`. Wording is Aseel's own. */
       challenge:
-        "Time-critical operational calculations involve multiple inputs and constraints, leaving room for manual error.",
-      contribution: "Designed the calculation approach and built working prototypes.",
-      solution:
-        "Structured calculators that validate inputs and lay out the constraints, so the numbers behind a decision are visible and checkable.",
-      tools: ["Microsoft Excel", "Validation logic"],
-      value:
-        "Aims to reduce manual error and shorten the time it takes to reach a checked answer.",
-      evidence: null,
+        "Operational calculations involve multiple inputs and constraints, increasing the risk of manual errors.",
+      role:
+        "Designed the calculation approach and developed Excel-based prototypes with input validation.",
+      outcome:
+        "Simplified complex tank calculations into a structured, easy-to-verify process, with built-in validation to minimize manual errors. The innovation also earned formal recognition.",
       images: [
         {
           role: "credential",
