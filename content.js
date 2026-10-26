@@ -85,12 +85,13 @@ const CONTENT = {
           title: "DCS / Control Room Operations",
           subtitle: "2023 to Present",
           text: "Progressed into DCS and control-room operations, including process monitoring, operational coordination, communication with field teams, and operational decision support.",
+          /* The highlight marks the current role — the top of the journey. */
+          emphasis: true,
         },
         {
           title: "Plant Commissioning & Start-Up Team",
           subtitle: "Yanbu",
           text: "Contributed directly to the commissioning and start-up of a newly established plant. Supported commissioning activities, field coordination, operational readiness, and the transition from the start-up phase into live operations.",
-          emphasis: true,
         },
         {
           title: "Operations Assignment",
